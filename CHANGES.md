@@ -1,3 +1,11 @@
+## Custom Changes Fork
+
+* ESM ESNext build, tree-shakable
+    * remove static type fields: prevented a lot of tree shaking
+    * remove serializer class: referenced every other class preventing tree shaking
+    * remove testbed: enable removing stage-js dependency
+    * remove deprecated internal export
+
 ## 0.2
 * TypeScript definitions added
 * wSet/wAdd/wSub(a, v, b, w) replaced with combine/setCombine/addCombine/subCombine(a, v, b, w)
