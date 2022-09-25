@@ -17,15 +17,21 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git://github.com/shakiba/planck.js.git"
+    "url": "git://github.com/CreativeTechGuy/planck.js.git"
   },
   "main": "dist/planck.js",
-  "types": "index.d.ts",
+  "types": "dist/planck.d.ts",
   "author": "Ali Shakiba",
   "contributors": [
     "Erin Catto",
     "Ali Shakiba",
     "Oliver Zell"
+  ],
+  "files": [
+    "/dist",
+    "LICENSE.txt",
+    "README.md",
+    "CHANGES.md"
   ],
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.13.0",
@@ -69,7 +75,6 @@
     "test:types": "tsd",
     "build": "rollup -c",
     "watch": "rollup -c --watch",
-    "testbed": "node testbed/server.js",
     "typedoc": "typedoc --options typedoc.json"
   }
 }

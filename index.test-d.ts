@@ -1,4 +1,4 @@
-import * as planck from '.'
+import * as planck from './dist/planck'
 
 const world = planck.World()
 
