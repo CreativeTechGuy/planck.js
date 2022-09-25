@@ -75,7 +75,7 @@ const DEFAULTS = {
  * @param anchor Anchor in global coordination.
  */
 export default class FrictionJoint extends Joint {
-  static TYPE = 'friction-joint' as const;
+  
 
   /** @internal */ m_type: 'friction-joint';
 
@@ -113,7 +113,7 @@ export default class FrictionJoint extends Joint {
     bodyA = this.m_bodyA;
     bodyB = this.m_bodyB;
 
-    this.m_type = FrictionJoint.TYPE;
+    this.m_type = "friction-joint";
 
     this.m_localAnchorA = Vec2.clone(anchor ? bodyA.getLocalPoint(anchor) : def.localAnchorA || Vec2.zero());
     this.m_localAnchorB = Vec2.clone(anchor ? bodyB.getLocalPoint(anchor) : def.localAnchorB || Vec2.zero());

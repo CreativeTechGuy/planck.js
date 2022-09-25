@@ -37,7 +37,7 @@ import { DistanceProxy } from '../Distance';
  * contact normals.
  */
 export default class EdgeShape extends Shape {
-  static TYPE = 'edge' as const;
+  
 
   // These are the edge vertices
   m_vertex1: Vec2;
@@ -58,7 +58,7 @@ export default class EdgeShape extends Shape {
 
     super();
 
-    this.m_type = EdgeShape.TYPE;
+    this.m_type = "edge";
     this.m_radius = Settings.polygonRadius;
 
 

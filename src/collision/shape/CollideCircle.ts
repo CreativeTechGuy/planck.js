@@ -35,11 +35,11 @@ import Fixture from "../../dynamics/Fixture";
 const _ASSERT = typeof ASSERT === 'undefined' ? false : ASSERT;
 
 
-Contact.addType(CircleShape.TYPE, CircleShape.TYPE, CircleCircleContact);
+Contact.addType("circle", "circle", CircleCircleContact);
 
 function CircleCircleContact(manifold: Manifold, xfA: Transform, fixtureA: Fixture, indexA: number, xfB: Transform, fixtureB: Fixture, indexB: number): void {
-  _ASSERT && common.assert(fixtureA.getType() == CircleShape.TYPE);
-  _ASSERT && common.assert(fixtureB.getType() == CircleShape.TYPE);
+  _ASSERT && common.assert(fixtureA.getType() == "circle");
+  _ASSERT && common.assert(fixtureB.getType() == "circle");
   CollideCircles(manifold, fixtureA.getShape() as CircleShape, xfA, fixtureB.getShape() as CircleShape, xfB);
 }
 

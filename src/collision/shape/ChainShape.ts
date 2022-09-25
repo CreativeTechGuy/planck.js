@@ -45,7 +45,7 @@ const _ASSERT = typeof ASSERT === 'undefined' ? false : ASSERT;
  * WARNING: The chain will not collide properly if there are self-intersections.
  */
 export default class ChainShape extends Shape {
-  static TYPE = 'chain' as const;
+  
 
   m_vertices: Vec2[];
   m_count: number;
@@ -64,7 +64,7 @@ export default class ChainShape extends Shape {
 
     super();
 
-    this.m_type = ChainShape.TYPE;
+    this.m_type = "chain";
     this.m_radius = Settings.polygonRadius;
     this.m_vertices = [];
     this.m_count = 0;
@@ -251,7 +251,7 @@ export default class ChainShape extends Shape {
   // Get a child edge.
   getChildEdge(edge: EdgeShape, childIndex: number): void {
     _ASSERT && common.assert(0 <= childIndex && childIndex < this.m_count - 1);
-    edge.m_type = EdgeShape.TYPE;
+    edge.m_type = "edge";
     edge.m_radius = this.m_radius;
 
     edge.m_vertex1 = this.m_vertices[childIndex];

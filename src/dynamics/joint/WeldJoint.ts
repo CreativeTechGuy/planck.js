@@ -87,7 +87,7 @@ const DEFAULTS = {
  * somewhat because the island constraint solver is approximate.
  */
 export default class WeldJoint extends Joint {
-  static TYPE = 'weld-joint' as const
+  
 
   /** @internal */ m_type: 'weld-joint';
   /** @internal */ m_localAnchorA: Vec2;
@@ -126,7 +126,7 @@ export default class WeldJoint extends Joint {
     bodyA = this.m_bodyA;
     bodyB = this.m_bodyB;
 
-    this.m_type = WeldJoint.TYPE;
+    this.m_type = "weld-joint";
 
     this.m_localAnchorA = Vec2.clone(anchor ? bodyA.getLocalPoint(anchor) : def.localAnchorA || Vec2.zero());
     this.m_localAnchorB = Vec2.clone(anchor ? bodyB.getLocalPoint(anchor) : def.localAnchorB || Vec2.zero());

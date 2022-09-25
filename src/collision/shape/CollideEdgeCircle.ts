@@ -36,12 +36,12 @@ import Fixture from "../../dynamics/Fixture";
 const _ASSERT = typeof ASSERT === 'undefined' ? false : ASSERT;
 
 
-Contact.addType(EdgeShape.TYPE, CircleShape.TYPE, EdgeCircleContact);
-Contact.addType(ChainShape.TYPE, CircleShape.TYPE, ChainCircleContact);
+Contact.addType("edge", "circle", EdgeCircleContact);
+Contact.addType("chain", "circle", ChainCircleContact);
 
 function EdgeCircleContact(manifold: Manifold, xfA: Transform, fixtureA: Fixture, indexA: number, xfB: Transform, fixtureB: Fixture, indexB: number): void {
-  _ASSERT && common.assert(fixtureA.getType() == EdgeShape.TYPE);
-  _ASSERT && common.assert(fixtureB.getType() == CircleShape.TYPE);
+  _ASSERT && common.assert(fixtureA.getType() == "edge");
+  _ASSERT && common.assert(fixtureB.getType() == "circle");
 
   const shapeA = fixtureA.getShape() as EdgeShape;
   const shapeB = fixtureB.getShape() as CircleShape;
@@ -50,8 +50,8 @@ function EdgeCircleContact(manifold: Manifold, xfA: Transform, fixtureA: Fixture
 }
 
 function ChainCircleContact(manifold: Manifold, xfA: Transform, fixtureA: Fixture, indexA: number, xfB: Transform, fixtureB: Fixture, indexB: number): void {
-  _ASSERT && common.assert(fixtureA.getType() == ChainShape.TYPE);
-  _ASSERT && common.assert(fixtureB.getType() == CircleShape.TYPE);
+  _ASSERT && common.assert(fixtureA.getType() == "chain");
+  _ASSERT && common.assert(fixtureB.getType() == "circle");
 
   const chain = fixtureA.getShape() as ChainShape;
   const edge = new EdgeShape();

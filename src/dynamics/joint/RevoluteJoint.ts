@@ -128,7 +128,7 @@ const DEFAULTS = {
  * so that infinite forces are not generated.
  */
 export default class RevoluteJoint extends Joint {
-  static TYPE = 'revolute-joint' as const;
+  
 
   /** @internal */ m_type: 'revolute-joint';
   /** @internal */ m_localAnchorA: Vec2;
@@ -172,7 +172,7 @@ export default class RevoluteJoint extends Joint {
     bodyA = this.m_bodyA;
     bodyB = this.m_bodyB;
 
-    this.m_type = RevoluteJoint.TYPE;
+    this.m_type = "revolute-joint";
 
     this.m_localAnchorA =  Vec2.clone(anchor ? bodyA.getLocalPoint(anchor) : def.localAnchorA || Vec2.zero());
     this.m_localAnchorB =  Vec2.clone(anchor ? bodyB.getLocalPoint(anchor) : def.localAnchorB || Vec2.zero());

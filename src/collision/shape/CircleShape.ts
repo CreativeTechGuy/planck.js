@@ -37,7 +37,7 @@ const _ASSERT = typeof ASSERT === 'undefined' ? false : ASSERT;
 
 
 export default class CircleShape extends Shape {
-  static TYPE = 'circle' as const;
+  
 
   m_p: Vec2;
 
@@ -52,7 +52,7 @@ export default class CircleShape extends Shape {
 
     super();
 
-    this.m_type = CircleShape.TYPE;
+    this.m_type = "circle";
     this.m_p = Vec2.zero();
     this.m_radius = 1;
 

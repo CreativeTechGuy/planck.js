@@ -80,7 +80,7 @@ const DEFAULTS = {
  * want to dynamically control length.
  */
 export default class RopeJoint extends Joint {
-  static TYPE = 'rope-joint' as const;
+  
 
   /** @internal */ m_type: 'rope-joint';
   /** @internal */ m_localAnchorA: Vec2;
@@ -117,7 +117,7 @@ export default class RopeJoint extends Joint {
     bodyA = this.m_bodyA;
     bodyB = this.m_bodyB;
 
-    this.m_type = RopeJoint.TYPE;
+    this.m_type = "rope-joint";
     this.m_localAnchorA = anchor ? bodyA.getLocalPoint(anchor) : def.localAnchorA || Vec2.neo(-1.0, 0.0);
     this.m_localAnchorB = anchor ? bodyB.getLocalPoint(anchor) : def.localAnchorB || Vec2.neo(1.0, 0.0);
 

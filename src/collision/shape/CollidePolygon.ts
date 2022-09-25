@@ -36,11 +36,11 @@ import Fixture from "../../dynamics/Fixture";
 const _ASSERT = typeof ASSERT === 'undefined' ? false : ASSERT;
 
 
-Contact.addType(PolygonShape.TYPE, PolygonShape.TYPE, PolygonContact);
+Contact.addType("polygon", "polygon", PolygonContact);
 
 function PolygonContact(manifold: Manifold, xfA: Transform, fixtureA: Fixture, indexA: number, xfB: Transform, fixtureB: Fixture, indexB: number): void {
-  _ASSERT && common.assert(fixtureA.getType() == PolygonShape.TYPE);
-  _ASSERT && common.assert(fixtureB.getType() == PolygonShape.TYPE);
+  _ASSERT && common.assert(fixtureA.getType() == "polygon");
+  _ASSERT && common.assert(fixtureB.getType() == "polygon");
   CollidePolygons(manifold, fixtureA.getShape() as PolygonShape, xfA, fixtureB.getShape() as PolygonShape, xfB);
 }
 

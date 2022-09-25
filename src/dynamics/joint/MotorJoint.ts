@@ -79,7 +79,7 @@ const DEFAULTS = {
  * the ground.
  */
 export default class MotorJoint extends Joint {
-  static TYPE = 'motor-joint' as const;
+  
 
   /** @internal */ m_type: 'motor-joint';
   /** @internal */ m_linearOffset: Vec2;
@@ -117,7 +117,7 @@ export default class MotorJoint extends Joint {
     bodyA = this.m_bodyA;
     bodyB = this.m_bodyB;
 
-    this.m_type = MotorJoint.TYPE;
+    this.m_type = "motor-joint";
 
     this.m_linearOffset = Math.isFinite(def.linearOffset) ? def.linearOffset : bodyA.getLocalPoint(bodyB.getPosition());
     this.m_angularOffset = Math.isFinite(def.angularOffset) ? def.angularOffset : bodyB.getAngle() - bodyA.getAngle();

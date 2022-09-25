@@ -83,7 +83,7 @@ const DEFAULTS = {
  * @param anchorB Anchor B in global coordination.
  */
 export default class DistanceJoint extends Joint {
-  static TYPE = 'distance-joint' as const;
+  
 
   // Solver shared
   /** @internal */ m_localAnchorA: Vec2;
@@ -127,7 +127,7 @@ export default class DistanceJoint extends Joint {
     bodyA = this.m_bodyA;
     bodyB = this.m_bodyB;
 
-    this.m_type = DistanceJoint.TYPE;
+    this.m_type = "DistanceJoint";
 
     // Solver shared
     this.m_localAnchorA = Vec2.clone(anchorA ? bodyA.getLocalPoint(anchorA) : def.localAnchorA || Vec2.zero());

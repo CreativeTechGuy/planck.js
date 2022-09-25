@@ -122,7 +122,7 @@ const DEFAULTS = {
  * motion or to model joint friction.
  */
 export default class PrismaticJoint extends Joint {
-  static TYPE = 'prismatic-joint' as const;
+  
 
   /** @internal */ m_type: 'prismatic-joint';
   /** @internal */ m_localAnchorA: Vec2;
@@ -168,7 +168,7 @@ export default class PrismaticJoint extends Joint {
     bodyA = this.m_bodyA;
     bodyB = this.m_bodyB;
 
-    this.m_type = PrismaticJoint.TYPE;
+    this.m_type = "prismatic-joint";
 
     this.m_localAnchorA = Vec2.clone(anchor ? bodyA.getLocalPoint(anchor) : def.localAnchorA || Vec2.zero());
     this.m_localAnchorB = Vec2.clone(anchor ? bodyB.getLocalPoint(anchor) : def.localAnchorB || Vec2.zero());

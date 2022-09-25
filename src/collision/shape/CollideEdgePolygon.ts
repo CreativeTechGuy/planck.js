@@ -39,19 +39,19 @@ import Fixture from "../../dynamics/Fixture";
 const _ASSERT = typeof ASSERT === 'undefined' ? false : ASSERT;
 
 
-Contact.addType(EdgeShape.TYPE, PolygonShape.TYPE, EdgePolygonContact);
-Contact.addType(ChainShape.TYPE, PolygonShape.TYPE, ChainPolygonContact);
+Contact.addType("edge", "polygon", EdgePolygonContact);
+Contact.addType("chain", "polygon", ChainPolygonContact);
 
 function EdgePolygonContact(manifold: Manifold, xfA: Transform, fA: Fixture, indexA: number, xfB: Transform, fB: Fixture, indexB: number): void {
-  _ASSERT && common.assert(fA.getType() == EdgeShape.TYPE);
-  _ASSERT && common.assert(fB.getType() == PolygonShape.TYPE);
+  _ASSERT && common.assert(fA.getType() == "edge");
+  _ASSERT && common.assert(fB.getType() == "polygon");
 
   CollideEdgePolygon(manifold, fA.getShape() as EdgeShape, xfA, fB.getShape() as PolygonShape, xfB);
 }
 
 function ChainPolygonContact(manifold: Manifold, xfA: Transform, fA: Fixture, indexA: number, xfB: Transform, fB: Fixture, indexB: number): void {
-  _ASSERT && common.assert(fA.getType() == ChainShape.TYPE);
-  _ASSERT && common.assert(fB.getType() == PolygonShape.TYPE);
+  _ASSERT && common.assert(fA.getType() == "chain");
+  _ASSERT && common.assert(fB.getType() == "polygon");
 
   const chain = fA.getShape() as ChainShape;
   const edge = new EdgeShape();

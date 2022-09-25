@@ -1,5 +1,3 @@
-export { default as Serializer } from './serializer/index';
-
 export { default as Math } from './common/Math';
 export { default as Vec2 } from './common/Vec2';
 export { default as Vec3 } from './common/Vec3';
@@ -50,39 +48,12 @@ export { default as TimeOfImpact } from './collision/TimeOfImpact';
 export { default as DynamicTree } from './collision/DynamicTree';
 
 import Solver, { TimeStep } from './dynamics/Solver';
-import { CollidePolygons } from './collision/shape/CollidePolygon';
-import { default as Settings } from './Settings';
-import { default as Sweep } from './common/Sweep';
-import { default as Manifold } from './collision/Manifold';
 import { default as Distance, DistanceInput, DistanceOutput, DistanceProxy, SimplexCache, testOverlap } from './collision/Distance';
 import { default as TimeOfImpact, TOIInput, TOIOutput } from './collision/TimeOfImpact';
-import { default as DynamicTree } from './collision/DynamicTree';
-
-import { default as stats } from './util/stats'; // todo: what to do with this?
 
 import { ContactImpulse } from './dynamics/Solver';
 type _ContactImpulse = InstanceType<typeof ContactImpulse>;
 export type { _ContactImpulse as ContactImpulse }
-
-/** @deprecated Merged with main namespace */
-export const internal = {};
-
-// @ts-ignore
-internal.CollidePolygons = CollidePolygons;
-// @ts-ignore
-internal.Settings = Settings;
-// @ts-ignore
-internal.Sweep = Sweep;
-// @ts-ignore
-internal.Manifold = Manifold;
-// @ts-ignore
-internal.Distance = Distance;
-// @ts-ignore
-internal.TimeOfImpact = TimeOfImpact;
-// @ts-ignore
-internal.DynamicTree = DynamicTree;
-// @ts-ignore
-internal.stats = stats;
 
 // @ts-ignore
 Solver.TimeStep = TimeStep;

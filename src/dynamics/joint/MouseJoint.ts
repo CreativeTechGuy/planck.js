@@ -86,7 +86,7 @@ const DEFAULTS = {
  * at the testbed.
  */
 export default class MouseJoint extends Joint {
-  static TYPE = 'mouse-joint' as const;
+  
 
   /** @internal */ m_type: 'mouse-joint';
   /** @internal */ m_targetA: Vec2;
@@ -118,7 +118,7 @@ export default class MouseJoint extends Joint {
     bodyA = this.m_bodyA;
     bodyB = this.m_bodyB;
 
-    this.m_type = MouseJoint.TYPE;
+    this.m_type = "mouse-joint";
 
     _ASSERT && common.assert(Math.isFinite(def.maxForce) && def.maxForce >= 0.0);
     _ASSERT && common.assert(Math.isFinite(def.frequencyHz) && def.frequencyHz >= 0.0);

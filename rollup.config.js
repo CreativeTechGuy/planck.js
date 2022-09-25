@@ -18,31 +18,13 @@ export default [
     minimize: false,
     declaration: true,
   },
-  {
-    src: 'src/index.ts',
-    dest: 'dist/planck.min.js',
-    minimize: true,
-    declaration: false,
-  },
-  {
-    src: 'testbed/index.ts',
-    dest: 'dist/planck-with-testbed.js',
-    minimize: false,
-    declaration: true,
-  },
-  {
-    src: 'testbed/index.ts',
-    dest: 'dist/planck-with-testbed.min.js',
-    minimize: true,
-    declaration: false,
-  }
 ].map(options => {
   const config = {
     input: options.src,
     output: {
       name: 'planck',
       file: options.dest,
-      format: 'umd',
+      format: 'esm',
       sourcemap: true,
     },
     plugins: [
@@ -54,9 +36,6 @@ export default [
         },
       }),
       nodeResolve(),
-      commonjs({
-        include: ['node_modules/stage-js/**']
-      }),
       typescript({
         tsconfig: resolvedConfig => ({
           ...resolvedConfig,

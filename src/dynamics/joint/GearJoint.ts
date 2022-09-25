@@ -79,7 +79,7 @@ const DEFAULTS = {
  * combination will work).
  */
 export default class GearJoint extends Joint {
-  static TYPE = 'gear-joint' as const;
+  
 
   /** @internal */ m_type: 'gear-joint';
   /** @internal */ m_joint1: RevoluteJoint | PrismaticJoint;
@@ -134,12 +134,12 @@ export default class GearJoint extends Joint {
     bodyA = this.m_bodyA;
     bodyB = this.m_bodyB;
 
-    this.m_type = GearJoint.TYPE;
+    this.m_type = "gear-joint";
 
-    _ASSERT && common.assert(joint1.m_type === RevoluteJoint.TYPE
-        || joint1.m_type === PrismaticJoint.TYPE);
-    _ASSERT && common.assert(joint2.m_type === RevoluteJoint.TYPE
-        || joint2.m_type === PrismaticJoint.TYPE);
+    _ASSERT && common.assert(joint1.m_type === "revolute-joint"
+        || joint1.m_type === "prismatic-joint");
+    _ASSERT && common.assert(joint2.m_type === "revolute-joint"
+        || joint2.m_type === "prismatic-joint");
 
     this.m_joint1 = joint1 ? joint1 : def.joint1;
     this.m_joint2 = joint2 ? joint2 : def.joint2;
@@ -165,7 +165,7 @@ export default class GearJoint extends Joint {
     const xfC = this.m_bodyC.m_xf;
     const aC = this.m_bodyC.m_sweep.a;
 
-    if (this.m_type1 === RevoluteJoint.TYPE) {
+    if (this.m_type1 === "revolute-joint") {
       const revolute = this.m_joint1 as RevoluteJoint;
       this.m_localAnchorC = revolute.m_localAnchorA;
       this.m_localAnchorA = revolute.m_localAnchorB;
@@ -194,7 +194,7 @@ export default class GearJoint extends Joint {
     const xfD = this.m_bodyD.m_xf;
     const aD = this.m_bodyD.m_sweep.a;
 
-    if (this.m_type2 === RevoluteJoint.TYPE) {
+    if (this.m_type2 === "revolute-joint") {
       const revolute = this.m_joint2 as RevoluteJoint;
       this.m_localAnchorD = revolute.m_localAnchorA;
       this.m_localAnchorB = revolute.m_localAnchorB;
@@ -361,7 +361,7 @@ export default class GearJoint extends Joint {
 
     this.m_mass = 0.0;
 
-    if (this.m_type1 == RevoluteJoint.TYPE) {
+    if (this.m_type1 == "revolute-joint") {
       this.m_JvAC = Vec2.zero();
       this.m_JwA = 1.0;
       this.m_JwC = 1.0;
@@ -376,7 +376,7 @@ export default class GearJoint extends Joint {
       this.m_mass += this.m_mC + this.m_mA + this.m_iC * this.m_JwC * this.m_JwC + this.m_iA * this.m_JwA * this.m_JwA;
     }
 
-    if (this.m_type2 == RevoluteJoint.TYPE) {
+    if (this.m_type2 == "revolute-joint") {
       this.m_JvBD = Vec2.zero();
       this.m_JwB = this.m_ratio;
       this.m_JwD = this.m_ratio;
@@ -489,7 +489,7 @@ export default class GearJoint extends Joint {
     let JwD: number;
     let mass = 0.0;
 
-    if (this.m_type1 == RevoluteJoint.TYPE) {
+    if (this.m_type1 == "revolute-joint") {
       JvAC = Vec2.zero();
       JwA = 1.0;
       JwC = 1.0;
@@ -510,7 +510,7 @@ export default class GearJoint extends Joint {
       coordinateA = Vec2.dot(Vec2.sub(pA, pC), this.m_localAxisC);
     }
 
-    if (this.m_type2 == RevoluteJoint.TYPE) {
+    if (this.m_type2 == "revolute-joint") {
       JvBD = Vec2.zero();
       JwB = this.m_ratio;
       JwD = this.m_ratio;

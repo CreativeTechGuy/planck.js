@@ -100,7 +100,7 @@ const DEFAULTS = {
  * This joint is designed for vehicle suspensions.
  */
 export default class WheelJoint extends Joint {
-  static TYPE = 'wheel-joint' as const;
+  
 
   /** @internal */ m_type: 'wheel-joint';
   /** @internal */ m_localAnchorA: Vec2;
@@ -154,7 +154,7 @@ export default class WheelJoint extends Joint {
     bodyA = this.m_bodyA;
     bodyB = this.m_bodyB;
 
-    this.m_type = WheelJoint.TYPE;
+    this.m_type = "wheel-joint";
 
     this.m_localAnchorA = Vec2.clone(anchor ? bodyA.getLocalPoint(anchor) : def.localAnchorA || Vec2.zero());
     this.m_localAnchorB = Vec2.clone(anchor ? bodyB.getLocalPoint(anchor) : def.localAnchorB || Vec2.zero());

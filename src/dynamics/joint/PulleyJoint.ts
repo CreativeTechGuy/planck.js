@@ -94,7 +94,7 @@ const DEFAULTS = {
  * length.
  */
 export default class PulleyJoint extends Joint {
-  static TYPE = 'pulley-joint' as const;
+  
   // static MIN_PULLEY_LENGTH: number = 2.0; // TODO where this is used?
 
   /** @internal */ m_type: 'pulley-joint';
@@ -134,7 +134,7 @@ export default class PulleyJoint extends Joint {
     bodyA = this.m_bodyA;
     bodyB = this.m_bodyB;
 
-    this.m_type = PulleyJoint.TYPE;
+    this.m_type = "pulley-joint";
     this.m_groundAnchorA = groundA ? groundA : def.groundAnchorA || Vec2.neo(-1.0, 1.0);
     this.m_groundAnchorB = groundB ? groundB : def.groundAnchorB || Vec2.neo(1.0, 1.0);
     this.m_localAnchorA = anchorA ? bodyA.getLocalPoint(anchorA) : def.localAnchorA || Vec2.neo(-1.0, 0.0);

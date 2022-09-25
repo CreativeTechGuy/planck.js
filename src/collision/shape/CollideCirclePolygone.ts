@@ -36,11 +36,11 @@ import Fixture from "../../dynamics/Fixture";
 const _ASSERT = typeof ASSERT === 'undefined' ? false : ASSERT;
 
 
-Contact.addType(PolygonShape.TYPE, CircleShape.TYPE, PolygonCircleContact);
+Contact.addType("polygon", "circle", PolygonCircleContact);
 
 function PolygonCircleContact(manifold: Manifold, xfA: Transform, fixtureA: Fixture, indexA: number, xfB: Transform, fixtureB: Fixture, indexB: number): void {
-  _ASSERT && common.assert(fixtureA.getType() == PolygonShape.TYPE);
-  _ASSERT && common.assert(fixtureB.getType() == CircleShape.TYPE);
+  _ASSERT && common.assert(fixtureA.getType() == "polygon");
+  _ASSERT && common.assert(fixtureB.getType() == "circle");
   CollidePolygonCircle(manifold, fixtureA.getShape() as PolygonShape, xfA, fixtureB.getShape() as CircleShape, xfB);
 }
 
