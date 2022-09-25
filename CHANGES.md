@@ -5,6 +5,7 @@
     * remove serializer class: referenced every other class preventing tree shaking
     * remove testbed: enable removing stage-js dependency
     * remove deprecated internal export
+* Exported all types
 
 ## 0.2
 * TypeScript definitions added

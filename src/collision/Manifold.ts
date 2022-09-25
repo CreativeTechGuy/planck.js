@@ -22,10 +22,10 @@
  * SOFTWARE.
  */
 
-import Vec2 from '../common/Vec2';
-import Transform from '../common/Transform';
-import Math from '../common/Math';
-import Rot from '../common/Rot';
+import { Vec2 } from '../common/Vec2';
+import { Transform } from '../common/Transform';
+import { PlanckMath } from '../common/Math';
+import { Rot } from '../common/Rot';
 
 export enum ManifoldType {
   e_circles = 0,
@@ -89,7 +89,7 @@ export enum ContactFeatureType {
  * @prop points The points of contact {ManifoldPoint[]}
  * @prop pointCount The number of manifold points
  */
-export default class Manifold {
+export class Manifold {
   type: ManifoldType;
   localNormal: Vec2 = Vec2.zero();
   localPoint: Vec2 = Vec2.zero();
@@ -119,7 +119,7 @@ export default class Manifold {
         const pointA = Transform.mulVec2(xfA, this.localPoint);
         const pointB = Transform.mulVec2(xfB, this.points[0].localPoint);
         const dist = Vec2.sub(pointB, pointA);
-        if (Vec2.lengthSquared(dist) > Math.EPSILON * Math.EPSILON) {
+        if (Vec2.lengthSquared(dist) > PlanckMath.EPSILON * PlanckMath.EPSILON) {
           normal.setVec2(dist);
           normal.normalize();
         }

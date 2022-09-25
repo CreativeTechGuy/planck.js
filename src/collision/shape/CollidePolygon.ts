@@ -23,14 +23,14 @@
  */
 
 import common from '../../util/common';
-import Transform from '../../common/Transform';
-import Rot from '../../common/Rot';
-import Vec2 from '../../common/Vec2';
-import Settings from '../../Settings';
-import Manifold, { clipSegmentToLine, ClipVertex, ContactFeatureType, ManifoldType } from '../Manifold';
-import Contact from '../../dynamics/Contact';
-import PolygonShape from './PolygonShape';
-import Fixture from "../../dynamics/Fixture";
+import { Transform } from '../../common/Transform';
+import { Rot } from '../../common/Rot';
+import { Vec2 } from '../../common/Vec2';
+import { Settings } from '../../Settings';
+import { clipSegmentToLine, ClipVertex, ContactFeatureType, ManifoldType, Manifold } from '../Manifold';
+import { Contact } from '../../dynamics/Contact';
+import { Polygon } from './PolygonShape';
+import { Fixture } from "../../dynamics/Fixture";
 
 
 const _ASSERT = typeof ASSERT === 'undefined' ? false : ASSERT;
@@ -41,7 +41,7 @@ Contact.addType("polygon", "polygon", PolygonContact);
 function PolygonContact(manifold: Manifold, xfA: Transform, fixtureA: Fixture, indexA: number, xfB: Transform, fixtureB: Fixture, indexB: number): void {
   _ASSERT && common.assert(fixtureA.getType() == "polygon");
   _ASSERT && common.assert(fixtureB.getType() == "polygon");
-  CollidePolygons(manifold, fixtureA.getShape() as PolygonShape, xfA, fixtureB.getShape() as PolygonShape, xfB);
+  CollidePolygons(manifold, fixtureA.getShape() as Polygon, xfA, fixtureB.getShape() as Polygon, xfB);
 }
 
 interface MaxSeparation {
@@ -53,7 +53,7 @@ interface MaxSeparation {
  * Find the max separation between poly1 and poly2 using edge normals from
  * poly1.
  */
-function findMaxSeparation(poly1: PolygonShape, xf1: Transform, poly2: PolygonShape, xf2: Transform, output: MaxSeparation): void {
+function findMaxSeparation(poly1: Polygon, xf1: Transform, poly2: Polygon, xf2: Transform, output: MaxSeparation): void {
   const count1 = poly1.m_count;
   const count2 = poly2.m_count;
   const n1s = poly1.m_normals;
@@ -88,7 +88,7 @@ function findMaxSeparation(poly1: PolygonShape, xf1: Transform, poly2: PolygonSh
   output.bestIndex = bestIndex;
 }
 
-function findIncidentEdge(c: ClipVertex[], poly1: PolygonShape, xf1: Transform, edge1: number, poly2: PolygonShape, xf2: Transform): void {
+function findIncidentEdge(c: ClipVertex[], poly1: Polygon, xf1: Transform, edge1: number, poly2: Polygon, xf2: Transform): void {
   const normals1 = poly1.m_normals;
 
   const count2 = poly2.m_count;
@@ -143,7 +143,7 @@ const maxSeparation = {
  *
  * The normal points from 1 to 2
  */
-export function CollidePolygons(manifold: Manifold, polyA: PolygonShape, xfA: Transform, polyB: PolygonShape, xfB: Transform): void {
+export function CollidePolygons(manifold: Manifold, polyA: Polygon, xfA: Transform, polyB: Polygon, xfB: Transform): void {
   manifold.pointCount = 0;
   const totalRadius = polyA.m_radius + polyB.m_radius;
 

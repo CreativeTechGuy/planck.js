@@ -24,14 +24,14 @@
 
 import common from '../../util/common';
 import options from '../../util/options';
-import Settings from '../../Settings';
-import Math from '../../common/Math';
-import Vec2 from '../../common/Vec2';
-import Rot from '../../common/Rot';
-import Joint, { JointOpt, JointDef } from '../Joint';
-import Body from '../Body';
-import RevoluteJoint from './RevoluteJoint';
-import PrismaticJoint from './PrismaticJoint';
+import { Settings } from '../../Settings';
+import { PlanckMath } from '../../common/Math';
+import { Vec2 } from '../../common/Vec2';
+import { Rot } from '../../common/Rot';
+import { JointOpt, JointDef, Joint } from '../Joint';
+import { Body } from '../Body';
+import { RevoluteJoint } from './RevoluteJoint';
+import { PrismaticJoint } from './PrismaticJoint';
 import { TimeStep } from "../Solver";
 
 
@@ -78,7 +78,7 @@ const DEFAULTS = {
  * This definition requires two existing revolute or prismatic joints (any
  * combination will work).
  */
-export default class GearJoint extends Joint {
+export class GearJoint extends Joint {
   
 
   /** @internal */ m_type: 'gear-joint';
@@ -143,7 +143,7 @@ export default class GearJoint extends Joint {
 
     this.m_joint1 = joint1 ? joint1 : def.joint1;
     this.m_joint2 = joint2 ? joint2 : def.joint2;
-    this.m_ratio = Math.isFinite(ratio) ? ratio : def.ratio;
+    this.m_ratio = PlanckMath.isFinite(ratio) ? ratio : def.ratio;
 
     this.m_type1 = this.m_joint1.getType() as 'revolute-joint' | 'prismatic-joint';
     this.m_type2 = this.m_joint2.getType() as 'revolute-joint' | 'prismatic-joint';
@@ -284,7 +284,7 @@ export default class GearJoint extends Joint {
    * Set the gear ratio.
    */
   setRatio(ratio: number): void {
-    _ASSERT && common.assert(Math.isFinite(ratio));
+    _ASSERT && common.assert(PlanckMath.isFinite(ratio));
     this.m_ratio = ratio;
   }
 

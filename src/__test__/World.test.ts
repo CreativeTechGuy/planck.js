@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 
-import Vec2 from '../common/Vec2';
-import World from '../dynamics/World';
-import Box from '../collision/shape/BoxShape';
+import { Vec2 } from '../common/Vec2';
+import { World } from '../dynamics/World';
+import { Box as Box } from '../collision/shape/BoxShape';
 
 // registers Box-Box collision
 import '../collision/shape/CollidePolygon';

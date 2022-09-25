@@ -23,12 +23,12 @@
  */
 
 import options from '../../util/options';
-import Settings from '../../Settings';
-import Math from '../../common/Math';
-import Vec2 from '../../common/Vec2';
-import Rot from '../../common/Rot';
-import Joint, { JointOpt, JointDef } from '../Joint';
-import Body from '../Body';
+import { Settings } from '../../Settings';
+import { PlanckMath } from '../../common/Math';
+import { Vec2 } from '../../common/Vec2';
+import { Rot } from '../../common/Rot';
+import { JointOpt, JointDef, Joint } from '../Joint';
+import { Body } from '../Body';
 import { TimeStep } from "../Solver";
 
 
@@ -99,7 +99,7 @@ const DEFAULTS = {
  * point to line constraint with a rotational motor and a linear spring/damper.
  * This joint is designed for vehicle suspensions.
  */
-export default class WheelJoint extends Joint {
+export class WheelJoint extends Joint {
   
 
   /** @internal */ m_type: 'wheel-joint';
@@ -468,7 +468,7 @@ export default class WheelJoint extends Joint {
         const C = Vec2.dot(d, this.m_ax); // float
 
         // Frequency
-        const omega = 2.0 * Math.PI * this.m_frequencyHz; // float
+        const omega = 2.0 * PlanckMath.PI * this.m_frequencyHz; // float
 
         // Damping coefficient
         const damp = 2.0 * this.m_springMass * this.m_dampingRatio * omega; // float
@@ -570,7 +570,7 @@ export default class WheelJoint extends Joint {
 
       const oldImpulse = this.m_motorImpulse; // float
       const maxImpulse = step.dt * this.m_maxMotorTorque; // float
-      this.m_motorImpulse = Math.clamp(this.m_motorImpulse + impulse,
+      this.m_motorImpulse = PlanckMath.clamp(this.m_motorImpulse + impulse,
           -maxImpulse, maxImpulse);
       impulse = this.m_motorImpulse - oldImpulse;
 
@@ -651,7 +651,7 @@ export default class WheelJoint extends Joint {
     this.m_bodyB.c_position.c.setVec2(cB);
     this.m_bodyB.c_position.a = aB;
 
-    return Math.abs(C) <= Settings.linearSlop;
+    return PlanckMath.abs(C) <= Settings.linearSlop;
   }
 
 }

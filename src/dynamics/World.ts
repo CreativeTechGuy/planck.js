@@ -24,15 +24,15 @@
 
 import options from '../util/options';
 import common from '../util/common';
-import Vec2 from '../common/Vec2';
+import { Vec2 } from '../common/Vec2';
 import BroadPhase from '../collision/BroadPhase';
-import Solver, { ContactImpulse, TimeStep } from './Solver';
-import Body, { BodyDef } from './Body';
-import Joint from './Joint';
-import Contact from './Contact';
-import AABB, { RayCastInput, RayCastOutput } from "../collision/AABB";
-import Fixture, { FixtureProxy } from "./Fixture";
-import Manifold from "../collision/Manifold";
+import { ContactImpulse, TimeStep, Solver } from './Solver';
+import { BodyDef, Body } from './Body';
+import { Joint } from './Joint';
+import { Contact } from './Contact';
+import { RayCastInput, RayCastOutput, AABB } from "../collision/AABB";
+import { FixtureProxy, Fixture } from "./Fixture";
+import { Manifold } from "../collision/Manifold";
 
 
 const _ASSERT = typeof ASSERT === 'undefined' ? false : ASSERT;
@@ -92,7 +92,7 @@ export type WorldRayCastCallback = (fixture: Fixture, point: Vec2, normal: Vec2,
  */
 export type WorldAABBQueryCallback = (fixture: Fixture) => boolean;
 
-export default class World {
+export class World {
   /** @internal */ m_solver: Solver;
   /** @internal */ m_broadPhase: BroadPhase;
   /** @internal */ m_contactList: Contact | null;

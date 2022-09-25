@@ -23,14 +23,14 @@
  */
 
 import common from '../util/common';
-import Math from './Math';
+import { PlanckMath } from './Math';
 
 
 const _DEBUG = typeof DEBUG === 'undefined' ? false : DEBUG;
 const _ASSERT = typeof ASSERT === 'undefined' ? false : ASSERT;
 
 
-export default class Vec3 {
+export class Vec3 {
   x: number;
   y: number;
   z: number;
@@ -111,7 +111,7 @@ export default class Vec3 {
     if (obj === null || typeof obj === 'undefined') {
       return false;
     }
-    return Math.isFinite(obj.x) && Math.isFinite(obj.y) && Math.isFinite(obj.z);
+    return PlanckMath.isFinite(obj.x) && PlanckMath.isFinite(obj.y) && PlanckMath.isFinite(obj.z);
   }
 
   static assert(o: any): void {

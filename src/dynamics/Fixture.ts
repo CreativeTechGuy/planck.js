@@ -24,13 +24,13 @@
 
 import common from '../util/common';
 import options from '../util/options';
-import Math from '../common/Math';
-import Vec2 from '../common/Vec2';
-import AABB, { RayCastInput, RayCastOutput } from '../collision/AABB';
-import Shape, { ShapeType } from '../collision/Shape';
-import Body, { MassData } from "./Body";
+import { PlanckMath } from '../common/Math';
+import { Vec2 } from '../common/Vec2';
+import { RayCastInput, RayCastOutput, AABB } from '../collision/AABB';
+import { ShapeType, Shape } from '../collision/Shape';
+import { MassData, Body } from "./Body";
 import BroadPhase from "../collision/BroadPhase";
-import Transform from "../common/Transform";
+import { Transform } from "../common/Transform";
 
 
 const _ASSERT = typeof ASSERT === 'undefined' ? false : ASSERT;
@@ -113,7 +113,7 @@ export class FixtureProxy {
  *
  * To create a new Fixture use {@link Body.createFixture}.
  */
-export default class Fixture {
+export class Fixture {
   /** @internal */ m_body: Body;
   /** @internal */ m_friction: number;
   /** @internal */ m_restitution: number;
@@ -296,7 +296,7 @@ export default class Fixture {
    * mass of the body. You must call Body.resetMassData to update the body's mass.
    */
   setDensity(density: number): void {
-    _ASSERT && common.assert(Math.isFinite(density) && density >= 0.0);
+    _ASSERT && common.assert(PlanckMath.isFinite(density) && density >= 0.0);
     this.m_density = density;
   }
 

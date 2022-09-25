@@ -23,10 +23,10 @@
  */
 
 import common from '../util/common';
-import Vec2 from '../common/Vec2';
-import Math from '../common/Math';
-import AABB, { RayCastCallback, RayCastInput } from './AABB';
-import DynamicTree, { DynamicTreeQueryCallback } from './DynamicTree';
+import { Vec2 } from '../common/Vec2';
+import { PlanckMath } from '../common/Math';
+import { RayCastCallback, RayCastInput, AABB } from './AABB';
+import { DynamicTreeQueryCallback, DynamicTree } from './DynamicTree';
 import { FixtureProxy } from "../dynamics/Fixture";
 
 
@@ -213,8 +213,8 @@ export default class BroadPhase {
       return true;
     }
 
-    const proxyIdA = Math.min(proxyId, this.m_queryProxyId);
-    const proxyIdB = Math.max(proxyId, this.m_queryProxyId);
+    const proxyIdA = PlanckMath.min(proxyId, this.m_queryProxyId);
+    const proxyIdB = PlanckMath.max(proxyId, this.m_queryProxyId);
 
     // TODO: Skip any duplicate pairs.
 

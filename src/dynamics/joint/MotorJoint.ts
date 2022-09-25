@@ -24,12 +24,12 @@
 
 import common from '../../util/common';
 import options from '../../util/options';
-import Math from '../../common/Math';
-import Vec2 from '../../common/Vec2';
-import Mat22 from '../../common/Mat22';
-import Rot from '../../common/Rot';
-import Joint, { JointOpt, JointDef } from '../Joint';
-import Body from '../Body';
+import { PlanckMath } from '../../common/Math';
+import { Vec2 } from '../../common/Vec2';
+import { Mat22 } from '../../common/Mat22';
+import { Rot } from '../../common/Rot';
+import { JointOpt, JointDef, Joint } from '../Joint';
+import { Body } from '../Body';
 import { TimeStep } from "../Solver";
 
 
@@ -78,7 +78,7 @@ const DEFAULTS = {
  * typical usage is to control the movement of a dynamic body with respect to
  * the ground.
  */
-export default class MotorJoint extends Joint {
+export class MotorJoint extends Joint {
   
 
   /** @internal */ m_type: 'motor-joint';
@@ -119,8 +119,8 @@ export default class MotorJoint extends Joint {
 
     this.m_type = "motor-joint";
 
-    this.m_linearOffset = Math.isFinite(def.linearOffset) ? def.linearOffset : bodyA.getLocalPoint(bodyB.getPosition());
-    this.m_angularOffset = Math.isFinite(def.angularOffset) ? def.angularOffset : bodyB.getAngle() - bodyA.getAngle();
+    this.m_linearOffset = PlanckMath.isFinite(def.linearOffset) ? def.linearOffset : bodyA.getLocalPoint(bodyB.getPosition());
+    this.m_angularOffset = PlanckMath.isFinite(def.angularOffset) ? def.angularOffset : bodyB.getAngle() - bodyA.getAngle();
 
     this.m_linearImpulse = Vec2.zero();
     this.m_angularImpulse = 0.0;
@@ -176,7 +176,7 @@ export default class MotorJoint extends Joint {
    * Set the maximum friction force in N.
    */
   setMaxForce(force: number): void {
-    _ASSERT && common.assert(Math.isFinite(force) && force >= 0.0);
+    _ASSERT && common.assert(PlanckMath.isFinite(force) && force >= 0.0);
     this.m_maxForce = force;
   }
 
@@ -191,7 +191,7 @@ export default class MotorJoint extends Joint {
    * Set the maximum friction torque in N*m.
    */
   setMaxTorque(torque: number): void {
-    _ASSERT && common.assert(Math.isFinite(torque) && torque >= 0.0);
+    _ASSERT && common.assert(PlanckMath.isFinite(torque) && torque >= 0.0);
     this.m_maxTorque = torque;
   }
 
@@ -206,7 +206,7 @@ export default class MotorJoint extends Joint {
    * Set the position correction factor in the range [0,1].
    */
   setCorrectionFactor(factor: number): void {
-    _ASSERT && common.assert(Math.isFinite(factor) && 0.0 <= factor && factor <= 1.0);
+    _ASSERT && common.assert(PlanckMath.isFinite(factor) && 0.0 <= factor && factor <= 1.0);
     this.m_correctionFactor = factor;
   }
 
@@ -380,7 +380,7 @@ export default class MotorJoint extends Joint {
 
       const oldImpulse = this.m_angularImpulse;
       const maxImpulse = h * this.m_maxTorque;
-      this.m_angularImpulse = Math.clamp(this.m_angularImpulse + impulse,
+      this.m_angularImpulse = PlanckMath.clamp(this.m_angularImpulse + impulse,
           -maxImpulse, maxImpulse);
       impulse = this.m_angularImpulse - oldImpulse;
 

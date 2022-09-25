@@ -63,7 +63,7 @@ const math: Math & {
   random(min?: number, max?: number): number;
 } = Object.create(Math);
 
-export default math;
+export const PlanckMath = math;
 
 // @ts-ignore
 // noinspection JSConstantReassignment
@@ -83,7 +83,7 @@ math.assert = function(x: any): void {
 
 math.invSqrt = function(x: number): number {
   // TODO:
-  return 1 / Math.sqrt(x);
+  return 1 / PlanckMath.sqrt(x);
 };
 
 math.nextPowerOfTwo = function(x: number): number {
@@ -135,5 +135,5 @@ math.random = function(min?: number, max?: number): number {
     max = min;
     min = 0;
   }
-  return min === max ? min : Math.random() * (max - min) + min;
+  return min === max ? min : PlanckMath.random() * (max - min) + min;
 };

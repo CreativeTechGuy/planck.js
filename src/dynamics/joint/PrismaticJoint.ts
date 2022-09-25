@@ -24,15 +24,15 @@
 
 import common from '../../util/common';
 import options from '../../util/options';
-import Settings from '../../Settings';
-import Math from '../../common/Math';
-import Vec2 from '../../common/Vec2';
-import Vec3 from '../../common/Vec3';
-import Mat22 from '../../common/Mat22';
-import Mat33 from '../../common/Mat33';
-import Rot from '../../common/Rot';
-import Joint, { JointOpt, JointDef } from '../Joint';
-import Body from '../Body';
+import { Settings } from '../../Settings';
+import { PlanckMath } from '../../common/Math';
+import { Vec2 } from '../../common/Vec2';
+import { Vec3 } from '../../common/Vec3';
+import { Mat22 } from '../../common/Mat22';
+import { Mat33 } from '../../common/Mat33';
+import { Rot } from '../../common/Rot';
+import { JointOpt, JointDef, Joint } from '../Joint';
+import { Body } from '../Body';
 import { TimeStep } from "../Solver";
 
 
@@ -121,7 +121,7 @@ const DEFAULTS = {
  * joint limit to restrict the range of motion and a joint motor to drive the
  * motion or to model joint friction.
  */
-export default class PrismaticJoint extends Joint {
+export class PrismaticJoint extends Joint {
   
 
   /** @internal */ m_type: 'prismatic-joint';
@@ -175,7 +175,7 @@ export default class PrismaticJoint extends Joint {
     this.m_localXAxisA = Vec2.clone(axis ? bodyA.getLocalVector(axis) : def.localAxisA || Vec2.neo(1.0, 0.0));
     this.m_localXAxisA.normalize();
     this.m_localYAxisA = Vec2.crossNumVec2(1.0, this.m_localXAxisA);
-    this.m_referenceAngle = Math.isFinite(def.referenceAngle) ? def.referenceAngle : bodyB.getAngle() - bodyA.getAngle();
+    this.m_referenceAngle = PlanckMath.isFinite(def.referenceAngle) ? def.referenceAngle : bodyB.getAngle() - bodyA.getAngle();
 
     this.m_impulse = new Vec3();
     this.m_motorMass = 0.0;
@@ -593,7 +593,7 @@ export default class PrismaticJoint extends Joint {
     if (this.m_enableLimit) {
 
       const jointTranslation = Vec2.dot(this.m_axis, d); // float
-      if (Math.abs(this.m_upperTranslation - this.m_lowerTranslation) < 2.0 * Settings.linearSlop) {
+      if (PlanckMath.abs(this.m_upperTranslation - this.m_lowerTranslation) < 2.0 * Settings.linearSlop) {
         this.m_limitState = equalLimits;
 
       } else if (jointTranslation <= this.m_lowerTranslation) {
@@ -668,7 +668,7 @@ export default class PrismaticJoint extends Joint {
       let impulse = this.m_motorMass * (this.m_motorSpeed - Cdot);
       const oldImpulse = this.m_motorImpulse;
       const maxImpulse = step.dt * this.m_maxMotorForce;
-      this.m_motorImpulse = Math.clamp(this.m_motorImpulse + impulse,
+      this.m_motorImpulse = PlanckMath.clamp(this.m_motorImpulse + impulse,
           -maxImpulse, maxImpulse);
       impulse = this.m_motorImpulse - oldImpulse;
 
@@ -701,9 +701,9 @@ export default class PrismaticJoint extends Joint {
       this.m_impulse.add(df);
 
       if (this.m_limitState == atLowerLimit) {
-        this.m_impulse.z = Math.max(this.m_impulse.z, 0.0);
+        this.m_impulse.z = PlanckMath.max(this.m_impulse.z, 0.0);
       } else if (this.m_limitState == atUpperLimit) {
-        this.m_impulse.z = Math.min(this.m_impulse.z, 0.0);
+        this.m_impulse.z = PlanckMath.min(this.m_impulse.z, 0.0);
       }
 
       // f2(1:2) = invK(1:2,1:2) * (-Cdot(1:2) - K(1:2,3) * (f2(3) - f1(3))) +
@@ -782,8 +782,8 @@ export default class PrismaticJoint extends Joint {
     C1.x = Vec2.dot(perp, d);
     C1.y = aB - aA - this.m_referenceAngle;
 
-    let linearError = Math.abs(C1.x); // float
-    const angularError = Math.abs(C1.y); // float
+    let linearError = PlanckMath.abs(C1.x); // float
+    const angularError = PlanckMath.abs(C1.y); // float
 
     const linearSlop = Settings.linearSlop;
     const maxLinearCorrection = Settings.maxLinearCorrection;
@@ -793,25 +793,25 @@ export default class PrismaticJoint extends Joint {
     if (this.m_enableLimit) {
 
       const translation = Vec2.dot(axis, d); // float
-      if (Math.abs(this.m_upperTranslation - this.m_lowerTranslation) < 2.0 * linearSlop) {
+      if (PlanckMath.abs(this.m_upperTranslation - this.m_lowerTranslation) < 2.0 * linearSlop) {
         // Prevent large angular corrections
-        C2 = Math.clamp(translation, -maxLinearCorrection, maxLinearCorrection);
-        linearError = Math.max(linearError, Math.abs(translation));
+        C2 = PlanckMath.clamp(translation, -maxLinearCorrection, maxLinearCorrection);
+        linearError = PlanckMath.max(linearError, PlanckMath.abs(translation));
         active = true;
 
       } else if (translation <= this.m_lowerTranslation) {
         // Prevent large linear corrections and allow some slop.
-        C2 = Math.clamp(translation - this.m_lowerTranslation + linearSlop,
+        C2 = PlanckMath.clamp(translation - this.m_lowerTranslation + linearSlop,
             -maxLinearCorrection, 0.0);
-        linearError = Math
+        linearError = PlanckMath
             .max(linearError, this.m_lowerTranslation - translation);
         active = true;
 
       } else if (translation >= this.m_upperTranslation) {
         // Prevent large linear corrections and allow some slop.
-        C2 = Math.clamp(translation - this.m_upperTranslation - linearSlop, 0.0,
+        C2 = PlanckMath.clamp(translation - this.m_upperTranslation - linearSlop, 0.0,
             maxLinearCorrection);
-        linearError = Math
+        linearError = PlanckMath
             .max(linearError, translation - this.m_upperTranslation);
         active = true;
       }

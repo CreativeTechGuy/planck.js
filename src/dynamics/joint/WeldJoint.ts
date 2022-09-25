@@ -23,14 +23,14 @@
  */
 
 import options from '../../util/options';
-import Settings from '../../Settings';
-import Math from '../../common/Math';
-import Vec2 from '../../common/Vec2';
-import Vec3 from '../../common/Vec3';
-import Mat33 from '../../common/Mat33';
-import Rot from '../../common/Rot';
-import Joint, { JointOpt, JointDef } from '../Joint';
-import Body from '../Body';
+import { Settings } from '../../Settings';
+import { PlanckMath } from '../../common/Math';
+import { Vec2 } from '../../common/Vec2';
+import { Vec3 } from '../../common/Vec3';
+import { Mat33 } from '../../common/Mat33';
+import { Rot } from '../../common/Rot';
+import { JointOpt, JointDef, Joint } from '../Joint';
+import { Body } from '../Body';
 import { TimeStep } from "../Solver";
 
 
@@ -86,7 +86,7 @@ const DEFAULTS = {
  * A weld joint essentially glues two bodies together. A weld joint may distort
  * somewhat because the island constraint solver is approximate.
  */
-export default class WeldJoint extends Joint {
+export class WeldJoint extends Joint {
   
 
   /** @internal */ m_type: 'weld-joint';
@@ -130,7 +130,7 @@ export default class WeldJoint extends Joint {
 
     this.m_localAnchorA = Vec2.clone(anchor ? bodyA.getLocalPoint(anchor) : def.localAnchorA || Vec2.zero());
     this.m_localAnchorB = Vec2.clone(anchor ? bodyB.getLocalPoint(anchor) : def.localAnchorB || Vec2.zero());
-    this.m_referenceAngle = Math.isFinite(def.referenceAngle) ? def.referenceAngle : bodyB.getAngle() - bodyA.getAngle();
+    this.m_referenceAngle = PlanckMath.isFinite(def.referenceAngle) ? def.referenceAngle : bodyB.getAngle() - bodyA.getAngle();
 
     this.m_frequencyHz = def.frequencyHz;
     this.m_dampingRatio = def.dampingRatio;
@@ -347,7 +347,7 @@ export default class WeldJoint extends Joint {
       const C = aB - aA - this.m_referenceAngle; // float
 
       // Frequency
-      const omega = 2.0 * Math.PI * this.m_frequencyHz; // float
+      const omega = 2.0 * PlanckMath.PI * this.m_frequencyHz; // float
 
       // Damping coefficient
       const d = 2.0 * m * this.m_dampingRatio * omega; // float
@@ -513,7 +513,7 @@ export default class WeldJoint extends Joint {
       const C2 = aB - aA - this.m_referenceAngle; // float
 
       positionError = C1.length();
-      angularError = Math.abs(C2);
+      angularError = PlanckMath.abs(C2);
 
       const C = new Vec3(C1.x, C1.y, C2);
 

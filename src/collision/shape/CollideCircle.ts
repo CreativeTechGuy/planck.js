@@ -24,12 +24,12 @@
 
 
 import common from '../../util/common';
-import Transform from '../../common/Transform';
-import Vec2 from '../../common/Vec2';
-import Contact from '../../dynamics/Contact';
-import CircleShape from './CircleShape';
-import Manifold, { ContactFeatureType, ManifoldType } from "../Manifold";
-import Fixture from "../../dynamics/Fixture";
+import { Transform } from '../../common/Transform';
+import { Vec2 } from '../../common/Vec2';
+import { Contact } from '../../dynamics/Contact';
+import { Circle } from './CircleShape';
+import { ContactFeatureType, ManifoldType, Manifold } from "../Manifold";
+import { Fixture } from "../../dynamics/Fixture";
 
 
 const _ASSERT = typeof ASSERT === 'undefined' ? false : ASSERT;
@@ -40,10 +40,10 @@ Contact.addType("circle", "circle", CircleCircleContact);
 function CircleCircleContact(manifold: Manifold, xfA: Transform, fixtureA: Fixture, indexA: number, xfB: Transform, fixtureB: Fixture, indexB: number): void {
   _ASSERT && common.assert(fixtureA.getType() == "circle");
   _ASSERT && common.assert(fixtureB.getType() == "circle");
-  CollideCircles(manifold, fixtureA.getShape() as CircleShape, xfA, fixtureB.getShape() as CircleShape, xfB);
+  CollideCircles(manifold, fixtureA.getShape() as Circle, xfA, fixtureB.getShape() as Circle, xfB);
 }
 
-export function CollideCircles(manifold: Manifold, circleA: CircleShape, xfA: Transform, circleB: CircleShape, xfB: Transform): void {
+export function CollideCircles(manifold: Manifold, circleA: Circle, xfA: Transform, circleB: Circle, xfB: Transform): void {
   manifold.pointCount = 0;
 
   const pA = Transform.mulVec2(xfA, circleA.m_p);

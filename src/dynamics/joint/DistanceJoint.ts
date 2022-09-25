@@ -23,12 +23,12 @@
  */
 
 import options from '../../util/options';
-import Settings from '../../Settings';
-import Math from '../../common/Math';
-import Vec2 from '../../common/Vec2';
-import Rot from '../../common/Rot';
-import Joint, { JointOpt, JointDef } from '../Joint';
-import Body from '../Body';
+import { Settings } from '../../Settings';
+import { PlanckMath } from '../../common/Math';
+import { Vec2 } from '../../common/Vec2';
+import { Rot } from '../../common/Rot';
+import { JointOpt, JointDef, Joint } from '../Joint';
+import { Body } from '../Body';
 import { TimeStep } from "../Solver";
 
 /**
@@ -82,7 +82,7 @@ const DEFAULTS = {
  * @param anchorA Anchor A in global coordination.
  * @param anchorB Anchor B in global coordination.
  */
-export default class DistanceJoint extends Joint {
+export class DistanceJoint extends Joint {
   
 
   // Solver shared
@@ -132,7 +132,7 @@ export default class DistanceJoint extends Joint {
     // Solver shared
     this.m_localAnchorA = Vec2.clone(anchorA ? bodyA.getLocalPoint(anchorA) : def.localAnchorA || Vec2.zero());
     this.m_localAnchorB = Vec2.clone(anchorB ? bodyB.getLocalPoint(anchorB) : def.localAnchorB || Vec2.zero());
-    this.m_length = Math.isFinite(def.length) ? def.length :
+    this.m_length = PlanckMath.isFinite(def.length) ? def.length :
       Vec2.distance(bodyA.getWorldPoint(this.m_localAnchorA), bodyB.getWorldPoint(this.m_localAnchorB));
     this.m_frequencyHz = def.frequencyHz;
     this.m_dampingRatio = def.dampingRatio;
@@ -335,7 +335,7 @@ export default class DistanceJoint extends Joint {
       const C = length - this.m_length;
 
       // Frequency
-      const omega = 2.0 * Math.PI * this.m_frequencyHz;
+      const omega = 2.0 * PlanckMath.PI * this.m_frequencyHz;
 
       // Damping coefficient
       const d = 2.0 * this.m_mass * this.m_dampingRatio * omega;
@@ -428,7 +428,7 @@ export default class DistanceJoint extends Joint {
 
     const length = u.normalize();
     let C = length - this.m_length;
-    C = Math
+    C = PlanckMath
         .clamp(C, -Settings.maxLinearCorrection, Settings.maxLinearCorrection);
 
     const impulse = -this.m_mass * C;
@@ -444,7 +444,7 @@ export default class DistanceJoint extends Joint {
     this.m_bodyB.c_position.c.setVec2(cB);
     this.m_bodyB.c_position.a = aB;
 
-    return Math.abs(C) < Settings.linearSlop;
+    return PlanckMath.abs(C) < Settings.linearSlop;
   }
 
 }

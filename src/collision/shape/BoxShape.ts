@@ -22,19 +22,19 @@
  * SOFTWARE.
  */
 
-import type Vec2 from '../../common/Vec2';
-import PolygonShape from './PolygonShape';
+import type { Vec2 } from '../../common/Vec2';
+import { Polygon } from './PolygonShape';
 
 /**
  * A rectangle polygon which extend PolygonShape.
  */
-export default class BoxShape extends PolygonShape {
+export class Box extends Polygon {
   
 
   constructor(hx: number, hy: number, center?: Vec2, angle?: number) {
     // @ts-ignore
-    if (!(this instanceof BoxShape)) {
-      return new BoxShape(hx, hy, center, angle);
+    if (!(this instanceof Box)) {
+      return new Box(hx, hy, center, angle);
     }
 
     super();

@@ -25,17 +25,17 @@
 
 import common from '../util/common';
 import options from '../util/options';
-import Vec2 from '../common/Vec2';
-import Rot from '../common/Rot';
-import Math from '../common/Math';
-import Sweep from '../common/Sweep';
-import Transform from '../common/Transform';
+import { Vec2 } from '../common/Vec2';
+import { Rot } from '../common/Rot';
+import { PlanckMath } from '../common/Math';
+import { Sweep } from '../common/Sweep';
+import { Transform } from '../common/Transform';
 import Velocity from './Velocity';
 import Position from './Position';
-import Fixture, { FixtureDef, FixtureOpt } from './Fixture';
-import Shape from '../collision/Shape';
+import { FixtureDef, FixtureOpt, Fixture } from './Fixture';
+import { Shape } from '../collision/Shape';
 import { JointEdge } from "./Joint";
-import World from "./World";
+import { World } from "./World";
 import { ContactEdge } from "./Contact";
 
 const _ASSERT = typeof ASSERT === 'undefined' ? false : ASSERT;
@@ -145,7 +145,7 @@ export class MassData {
  *
  * To create a new Body use {@link World.createBody}.
  */
-export default class Body {
+export class Body {
   /**
    * A static body does not move under simulation and behaves as if it has infinite mass.
    * Internally, zero is stored for the mass and the inverse mass.
@@ -215,10 +215,10 @@ export default class Body {
 
     _ASSERT && common.assert(Vec2.isValid(def.position));
     _ASSERT && common.assert(Vec2.isValid(def.linearVelocity));
-    _ASSERT && common.assert(Math.isFinite(def.angle));
-    _ASSERT && common.assert(Math.isFinite(def.angularVelocity));
-    _ASSERT && common.assert(Math.isFinite(def.angularDamping) && def.angularDamping >= 0.0);
-    _ASSERT && common.assert(Math.isFinite(def.linearDamping) && def.linearDamping >= 0.0);
+    _ASSERT && common.assert(PlanckMath.isFinite(def.angle));
+    _ASSERT && common.assert(PlanckMath.isFinite(def.angularVelocity));
+    _ASSERT && common.assert(PlanckMath.isFinite(def.angularDamping) && def.angularDamping >= 0.0);
+    _ASSERT && common.assert(PlanckMath.isFinite(def.linearDamping) && def.linearDamping >= 0.0);
 
     this.m_world = world;
 

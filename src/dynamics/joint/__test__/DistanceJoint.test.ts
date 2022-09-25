@@ -1,11 +1,11 @@
 import { expect } from 'chai';
 
-import Vec2 from '../../../common/Vec2';
-import Circle from '../../../collision/shape/CircleShape';
-import Box from '../../../collision/shape/BoxShape';
-import World from '../../World';
+import { Vec2 } from '../../../common/Vec2';
+import { Circle as Circle } from '../../../collision/shape/CircleShape';
+import { Box as Box } from '../../../collision/shape/BoxShape';
+import { World } from '../../World';
 
-import DistanceJoint from '../DistanceJoint';
+import { DistanceJoint } from '../DistanceJoint';
 
 describe('DistanceJoint', function(): void {
 

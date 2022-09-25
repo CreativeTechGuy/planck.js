@@ -24,13 +24,13 @@
 
 import common from '../../util/common';
 import options from '../../util/options';
-import Math from '../../common/Math';
-import Vec2 from '../../common/Vec2';
-import Mat22 from '../../common/Mat22';
-import Rot from '../../common/Rot';
-import Transform from '../../common/Transform';
-import Joint, { JointOpt, JointDef } from '../Joint';
-import Body from '../Body';
+import { PlanckMath } from '../../common/Math';
+import { Vec2 } from '../../common/Vec2';
+import { Mat22 } from '../../common/Mat22';
+import { Rot } from '../../common/Rot';
+import { Transform } from '../../common/Transform';
+import { JointOpt, JointDef, Joint } from '../Joint';
+import { Body } from '../Body';
 import { TimeStep } from "../Solver";
 
 
@@ -85,7 +85,7 @@ const DEFAULTS = {
  * be used in the testbed. If you want to learn how to use the mouse joint, look
  * at the testbed.
  */
-export default class MouseJoint extends Joint {
+export class MouseJoint extends Joint {
   
 
   /** @internal */ m_type: 'mouse-joint';
@@ -120,9 +120,9 @@ export default class MouseJoint extends Joint {
 
     this.m_type = "mouse-joint";
 
-    _ASSERT && common.assert(Math.isFinite(def.maxForce) && def.maxForce >= 0.0);
-    _ASSERT && common.assert(Math.isFinite(def.frequencyHz) && def.frequencyHz >= 0.0);
-    _ASSERT && common.assert(Math.isFinite(def.dampingRatio) && def.dampingRatio >= 0.0);
+    _ASSERT && common.assert(PlanckMath.isFinite(def.maxForce) && def.maxForce >= 0.0);
+    _ASSERT && common.assert(PlanckMath.isFinite(def.frequencyHz) && def.frequencyHz >= 0.0);
+    _ASSERT && common.assert(PlanckMath.isFinite(def.dampingRatio) && def.dampingRatio >= 0.0);
 
     this.m_targetA = target ? Vec2.clone(target) : def.target || Vec2.zero();
     this.m_localAnchorB = Transform.mulTVec2(bodyB.getTransform(), this.m_targetA);
@@ -292,7 +292,7 @@ export default class MouseJoint extends Joint {
     const mass = this.m_bodyB.getMass();
 
     // Frequency
-    const omega = 2.0 * Math.PI * this.m_frequencyHz;
+    const omega = 2.0 * PlanckMath.PI * this.m_frequencyHz;
 
     // Damping coefficient
     const d = 2.0 * mass * this.m_dampingRatio * omega;
@@ -304,7 +304,7 @@ export default class MouseJoint extends Joint {
     // gamma has units of inverse mass.
     // beta has units of inverse time.
     const h = step.dt;
-    _ASSERT && common.assert(d + h * k > Math.EPSILON);
+    _ASSERT && common.assert(d + h * k > PlanckMath.EPSILON);
     this.m_gamma = h * (d + h * k);
     if (this.m_gamma != 0.0) {
       this.m_gamma = 1.0 / this.m_gamma;

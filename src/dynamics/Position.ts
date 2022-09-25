@@ -22,9 +22,9 @@
  * SOFTWARE.
  */
 
-import Vec2 from '../common/Vec2';
-import Rot from '../common/Rot';
-import Transform from '../common/Transform';
+import { Vec2 } from '../common/Vec2';
+import { Rot } from '../common/Rot';
+import { Transform } from '../common/Transform';
 
 
 export default class Position {

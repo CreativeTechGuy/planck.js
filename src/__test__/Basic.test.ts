@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 
-import Vec2 from '../common/Vec2';
-import Circle from '../collision/shape/CircleShape';
-import World from '../dynamics/World';
+import { Vec2 } from '../common/Vec2';
+import { Circle as Circle } from '../collision/shape/CircleShape';
+import { World } from '../dynamics/World';
 
 import '../collision/shape/CollideCircle';
 

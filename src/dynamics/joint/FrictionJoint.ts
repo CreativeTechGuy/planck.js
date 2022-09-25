@@ -24,12 +24,12 @@
 
 import common from '../../util/common';
 import options from '../../util/options';
-import Math from '../../common/Math';
-import Vec2 from '../../common/Vec2';
-import Mat22 from '../../common/Mat22';
-import Rot from '../../common/Rot';
-import Joint, { JointOpt, JointDef } from '../Joint';
-import Body from '../Body';
+import { PlanckMath } from '../../common/Math';
+import { Vec2 } from '../../common/Vec2';
+import { Mat22 } from '../../common/Mat22';
+import { Rot } from '../../common/Rot';
+import { JointOpt, JointDef, Joint } from '../Joint';
+import { Body } from '../Body';
 import { TimeStep } from "../Solver";
 
 
@@ -74,7 +74,7 @@ const DEFAULTS = {
  *
  * @param anchor Anchor in global coordination.
  */
-export default class FrictionJoint extends Joint {
+export class FrictionJoint extends Joint {
   
 
   /** @internal */ m_type: 'friction-joint';
@@ -201,7 +201,7 @@ export default class FrictionJoint extends Joint {
    * Set the maximum friction force in N.
    */
   setMaxForce(force: number): void {
-    _ASSERT && common.assert(Math.isFinite(force) && force >= 0.0);
+    _ASSERT && common.assert(PlanckMath.isFinite(force) && force >= 0.0);
     this.m_maxForce = force;
   }
 
@@ -216,7 +216,7 @@ export default class FrictionJoint extends Joint {
    * Set the maximum friction torque in N*m.
    */
   setMaxTorque(torque: number): void {
-    _ASSERT && common.assert(Math.isFinite(torque) && torque >= 0.0);
+    _ASSERT && common.assert(PlanckMath.isFinite(torque) && torque >= 0.0);
     this.m_maxTorque = torque;
   }
 
@@ -351,7 +351,7 @@ export default class FrictionJoint extends Joint {
 
       const oldImpulse = this.m_angularImpulse; // float
       const maxImpulse = h * this.m_maxTorque; // float
-      this.m_angularImpulse = Math.clamp(this.m_angularImpulse + impulse,
+      this.m_angularImpulse = PlanckMath.clamp(this.m_angularImpulse + impulse,
           -maxImpulse, maxImpulse);
       impulse = this.m_angularImpulse - oldImpulse;
 

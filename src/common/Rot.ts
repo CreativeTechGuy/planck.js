@@ -23,15 +23,15 @@
  */
 
 import common from '../util/common';
-import Vec2 from './Vec2';
-import Math from './Math';
+import { Vec2 } from './Vec2';
+import { PlanckMath } from './Math';
 
 
 const _DEBUG = typeof DEBUG === 'undefined' ? false : DEBUG;
 const _ASSERT = typeof ASSERT === 'undefined' ? false : ASSERT;
 
 
-export default class Rot {
+export class Rot {
   s: number;
   c: number;
 
@@ -75,7 +75,7 @@ export default class Rot {
     if (obj === null || typeof obj === 'undefined') {
       return false;
     }
-    return Math.isFinite(obj.s) && Math.isFinite(obj.c);
+    return PlanckMath.isFinite(obj.s) && PlanckMath.isFinite(obj.c);
   }
 
   static assert(o: any): void {
@@ -99,10 +99,10 @@ export default class Rot {
       this.c = angle.c;
 
     } else {
-      _ASSERT && Math.assert(angle);
+      _ASSERT && PlanckMath.assert(angle);
       // TODO_ERIN optimize
-      this.s = Math.sin(angle);
-      this.c = Math.cos(angle);
+      this.s = PlanckMath.sin(angle);
+      this.c = PlanckMath.cos(angle);
     }
   }
 
@@ -114,15 +114,15 @@ export default class Rot {
 
   /** Set using an angle in radians. */
   setAngle(angle: number): void {
-    _ASSERT && Math.assert(angle);
+    _ASSERT && PlanckMath.assert(angle);
     // TODO_ERIN optimize
-    this.s = Math.sin(angle);
-    this.c = Math.cos(angle);
+    this.s = PlanckMath.sin(angle);
+    this.c = PlanckMath.cos(angle);
   }
 
   /** Get the angle in radians. */
   getAngle(): number {
-    return Math.atan2(this.s, this.c);
+    return PlanckMath.atan2(this.s, this.c);
   }
 
   /** Get the x-axis. */

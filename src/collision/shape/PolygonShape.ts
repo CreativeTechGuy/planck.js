@@ -23,15 +23,15 @@
  */
 
 import type { MassData } from '../../dynamics/Body';
-import AABB, { RayCastOutput, RayCastInput } from '../AABB';
+import { RayCastOutput, RayCastInput, AABB } from '../AABB';
 import { DistanceProxy } from '../Distance';
 import common from '../../util/common';
-import Math from '../../common/Math';
-import Transform from '../../common/Transform';
-import Rot from '../../common/Rot';
-import Vec2 from '../../common/Vec2';
-import Settings from '../../Settings';
-import Shape from '../Shape';
+import { PlanckMath } from '../../common/Math';
+import { Transform } from '../../common/Transform';
+import { Rot } from '../../common/Rot';
+import { Vec2 } from '../../common/Vec2';
+import { Settings } from '../../Settings';
+import { Shape } from '../Shape';
 
 
 const _ASSERT = typeof ASSERT === 'undefined' ? false : ASSERT;
@@ -43,7 +43,7 @@ const _ASSERT = typeof ASSERT === 'undefined' ? false : ASSERT;
  * Settings.maxPolygonVertices. In most cases you should not need many vertices
  * for a convex polygon. extends Shape
  */
-export default class PolygonShape extends Shape {
+export class Polygon extends Shape {
   
 
   m_centroid: Vec2;
@@ -54,8 +54,8 @@ export default class PolygonShape extends Shape {
   // @ts-ignore
   constructor(vertices?: Vec2[]) {
     // @ts-ignore
-    if (!(this instanceof PolygonShape)) {
-      return new PolygonShape(vertices);
+    if (!(this instanceof Polygon)) {
+      return new Polygon(vertices);
     }
 
     super();
@@ -82,7 +82,7 @@ export default class PolygonShape extends Shape {
   }
 
   /** @internal */
-  static _deserialize(data: any, fixture: any, restore: any): PolygonShape {
+  static _deserialize(data: any, fixture: any, restore: any): Polygon {
     const vertices = [] as Vec2[];
     if (data.vertices) {
       for (let i = 0; i < data.vertices.length; i++) {
@@ -90,7 +90,7 @@ export default class PolygonShape extends Shape {
       }
     }
 
-    const shape = new PolygonShape(vertices);
+    const shape = new Polygon(vertices);
     return shape;
   }
 
@@ -105,8 +105,8 @@ export default class PolygonShape extends Shape {
    *
    * clone the concrete shape.
    */
-  _clone(): PolygonShape {
-    const clone = new PolygonShape();
+  _clone(): Polygon {
+    const clone = new Polygon();
     clone.m_type = this.m_type;
     clone.m_radius = this.m_radius;
     clone.m_count = this.m_count;
@@ -149,7 +149,7 @@ export default class PolygonShape extends Shape {
       return;
     }
 
-    let n = Math.min(vertices.length, Settings.maxPolygonVertices);
+    let n = PlanckMath.min(vertices.length, Settings.maxPolygonVertices);
 
     // Perform welding and copy vertices into local buffer.
     const ps = [] as Vec2[]; // [Settings.maxPolygonVertices];
@@ -247,7 +247,7 @@ export default class PolygonShape extends Shape {
       const i1 = i;
       const i2 = i + 1 < m ? i + 1 : 0;
       const edge = Vec2.sub(this.m_vertices[i2], this.m_vertices[i1]);
-      _ASSERT && common.assert(edge.lengthSquared() > Math.EPSILON * Math.EPSILON);
+      _ASSERT && common.assert(edge.lengthSquared() > PlanckMath.EPSILON * PlanckMath.EPSILON);
       this.m_normals[i] = Vec2.crossVec2Num(edge, 1.0);
       this.m_normals[i].normalize();
     }
@@ -391,10 +391,10 @@ export default class PolygonShape extends Shape {
     let maxY = -Infinity;
     for (let i = 0; i < this.m_count; ++i) {
       const v = Transform.mulVec2(xf, this.m_vertices[i]);
-      minX = Math.min(minX, v.x);
-      maxX = Math.max(maxX, v.x);
-      minY = Math.min(minY, v.y);
-      maxY = Math.max(maxY, v.y);
+      minX = PlanckMath.min(minX, v.x);
+      maxX = PlanckMath.max(maxX, v.x);
+      minY = PlanckMath.min(minY, v.y);
+      maxY = PlanckMath.max(maxY, v.y);
     }
 
     aabb.lowerBound.setNum(minX, minY);
@@ -480,7 +480,7 @@ export default class PolygonShape extends Shape {
     massData.mass = density * area;
 
     // Center of mass
-    _ASSERT && common.assert(area > Math.EPSILON);
+    _ASSERT && common.assert(area > PlanckMath.EPSILON);
     center.mul(1.0 / area);
     massData.center.setCombine(1, center, 1, s);
 
@@ -565,7 +565,7 @@ function ComputeCentroid(vs: Vec2[], count: number): Vec2 {
   }
 
   // Centroid
-  _ASSERT && common.assert(area > Math.EPSILON);
+  _ASSERT && common.assert(area > PlanckMath.EPSILON);
   c.mul(1.0 / area);
   return c;
 }

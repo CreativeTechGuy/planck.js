@@ -23,8 +23,8 @@
  */
 
 import common from '../util/common';
-import Math from '../common/Math';
-import Vec2 from '../common/Vec2';
+import { PlanckMath } from '../common/Math';
+import { Vec2 } from '../common/Vec2';
 
 
 const _DEBUG = typeof DEBUG === 'undefined' ? false : DEBUG;
@@ -51,7 +51,7 @@ export interface RayCastOutput {
   fraction: number;
 }
 
-export default class AABB {
+export class AABB {
   lowerBound: Vec2;
   upperBound: Vec2;
 
@@ -127,18 +127,18 @@ export default class AABB {
     const lowerB = b.lowerBound;
     const upperB = b.upperBound;
 
-    const lowerX = Math.min(lowerA.x, lowerB.x);
-    const lowerY = Math.min(lowerA.y, lowerB.y);
-    const upperX = Math.max(upperB.x, upperA.x);
-    const upperY = Math.max(upperB.y, upperA.y);
+    const lowerX = PlanckMath.min(lowerA.x, lowerB.x);
+    const lowerY = PlanckMath.min(lowerA.y, lowerB.y);
+    const upperX = PlanckMath.max(upperB.x, upperA.x);
+    const upperY = PlanckMath.max(upperB.y, upperA.y);
 
     this.lowerBound.setNum(lowerX, lowerY);
     this.upperBound.setNum(upperX, upperY);
   }
 
   combinePoints(a: Vec2, b: Vec2): void {
-    this.lowerBound.setNum(Math.min(a.x, b.x), Math.min(a.y, b.y));
-    this.upperBound.setNum(Math.max(a.x, b.x), Math.max(a.y, b.y));
+    this.lowerBound.setNum(PlanckMath.min(a.x, b.x), PlanckMath.min(a.y, b.y));
+    this.upperBound.setNum(PlanckMath.max(a.x, b.x), PlanckMath.max(a.y, b.y));
   }
 
   set(aabb: AABB): void {
@@ -185,8 +185,8 @@ export default class AABB {
   }
 
   static diff(a: AABB, b: AABB): number {
-    const wD = Math.max(0, Math.min(a.upperBound.x, b.upperBound.x) - Math.max(b.lowerBound.x, a.lowerBound.x));
-    const hD = Math.max(0, Math.min(a.upperBound.y, b.upperBound.y) - Math.max(b.lowerBound.y, a.lowerBound.y));
+    const wD = PlanckMath.max(0, PlanckMath.min(a.upperBound.x, b.upperBound.x) - PlanckMath.max(b.lowerBound.x, a.lowerBound.x));
+    const hD = PlanckMath.max(0, PlanckMath.min(a.upperBound.y, b.upperBound.y) - PlanckMath.max(b.lowerBound.y, a.lowerBound.y));
 
     const wA = a.upperBound.x - a.lowerBound.x;
     const hA = a.upperBound.y - a.lowerBound.y;
@@ -210,7 +210,7 @@ export default class AABB {
     const normal = Vec2.zero();
 
     for (let f: 'x' | 'y' = 'x'; f !== null; f = (f === 'x' ? 'y' : null)) {
-      if (absD.x < Math.EPSILON) {
+      if (absD.x < PlanckMath.EPSILON) {
         // Parallel.
         if (p[f] < this.lowerBound[f] || this.upperBound[f] < p[f]) {
           return false;
@@ -238,7 +238,7 @@ export default class AABB {
         }
 
         // Pull the max down
-        tmax = Math.min(tmax, t2);
+        tmax = PlanckMath.min(tmax, t2);
 
         if (tmin > tmax) {
           return false;

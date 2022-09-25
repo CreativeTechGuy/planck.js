@@ -22,12 +22,12 @@
  * SOFTWARE.
  */
 
-import Settings from '../../Settings';
-import Shape from '../Shape';
-import Transform from '../../common/Transform';
-import Rot from '../../common/Rot';
-import Vec2 from '../../common/Vec2';
-import AABB, { RayCastInput, RayCastOutput } from '../AABB';
+import { Settings } from '../../Settings';
+import { Shape } from '../Shape';
+import { Transform } from '../../common/Transform';
+import { Rot } from '../../common/Rot';
+import { Vec2 } from '../../common/Vec2';
+import { RayCastInput, RayCastOutput, AABB } from '../AABB';
 import { MassData } from '../../dynamics/Body';
 import { DistanceProxy } from '../Distance';
 
@@ -36,7 +36,7 @@ import { DistanceProxy } from '../Distance';
  * other edge shapes. The connectivity information is used to ensure correct
  * contact normals.
  */
-export default class EdgeShape extends Shape {
+export class Edge extends Shape {
   
 
   // These are the edge vertices
@@ -52,8 +52,8 @@ export default class EdgeShape extends Shape {
 
   constructor(v1?: Vec2, v2?: Vec2) {
     // @ts-ignore
-    if (!(this instanceof EdgeShape)) {
-      return new EdgeShape(v1, v2);
+    if (!(this instanceof Edge)) {
+      return new Edge(v1, v2);
     }
 
     super();
@@ -87,8 +87,8 @@ export default class EdgeShape extends Shape {
   }
 
   /** @internal */
-  static _deserialize(data: any): EdgeShape {
-    const shape = new EdgeShape(data.vertex1, data.vertex2);
+  static _deserialize(data: any): Edge {
+    const shape = new Edge(data.vertex1, data.vertex2);
     if (shape.m_hasVertex0) {
       shape.setPrevVertex(data.vertex0);
     }
@@ -99,14 +99,14 @@ export default class EdgeShape extends Shape {
   }
 
   /** @internal @deprecated */
-  setNext(v?: Vec2): EdgeShape {
+  setNext(v?: Vec2): Edge {
     return this.setNextVertex(v);
   }
 
   /**
    * Optional next vertex, used for smooth collision.
    */
-  setNextVertex(v?: Vec2): EdgeShape {
+  setNextVertex(v?: Vec2): Edge {
     if (v) {
       this.m_vertex3.setVec2(v);
       this.m_hasVertex3 = true;
@@ -125,14 +125,14 @@ export default class EdgeShape extends Shape {
   }
 
   /** @internal @deprecated */
-  setPrev(v?: Vec2): EdgeShape {
+  setPrev(v?: Vec2): Edge {
     return this.setPrevVertex(v);
   }
 
   /**
    * Optional prev vertex, used for smooth collision.
    */
-  setPrevVertex(v?: Vec2): EdgeShape {
+  setPrevVertex(v?: Vec2): Edge {
     if (v) {
       this.m_vertex0.setVec2(v);
       this.m_hasVertex0 = true;
@@ -153,7 +153,7 @@ export default class EdgeShape extends Shape {
   /**
    * Set this as an isolated edge.
    */
-  _set(v1: Vec2, v2: Vec2): EdgeShape {
+  _set(v1: Vec2, v2: Vec2): Edge {
     this.m_vertex1.setVec2(v1);
     this.m_vertex2.setVec2(v2);
     this.m_hasVertex0 = false;
@@ -167,8 +167,8 @@ export default class EdgeShape extends Shape {
    *
    * clone the concrete shape.
    */
-  _clone(): EdgeShape {
-    const clone = new EdgeShape();
+  _clone(): Edge {
+    const clone = new Edge();
     clone.m_type = this.m_type;
     clone.m_radius = this.m_radius;
     clone.m_vertex1.setVec2(this.m_vertex1);

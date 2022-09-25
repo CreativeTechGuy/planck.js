@@ -1,11 +1,11 @@
 import { expect } from 'chai';
 
-import Vec2 from '../common/Vec2';
-import Transform from '../common/Transform';
-import Sweep from '../common/Sweep';
-import Circle from '../collision/shape/CircleShape';
-import TimeOfImpact, {TOIInput, TOIOutput} from '../collision/TimeOfImpact';
-import Distance, {SimplexCache, DistanceOutput, DistanceInput} from '../collision/Distance';
+import { Vec2 } from '../common/Vec2';
+import { Transform } from '../common/Transform';
+import { Sweep } from '../common/Sweep';
+import { Circle as Circle } from '../collision/shape/CircleShape';
+import {TOIInput, TOIOutput, TimeOfImpact} from '../collision/TimeOfImpact';
+import {SimplexCache, DistanceOutput, DistanceInput, Distance} from '../collision/Distance';
 
 describe('CCD', function(): void {
 

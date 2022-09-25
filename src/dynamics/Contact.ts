@@ -24,16 +24,16 @@
 
 import { ShapeType } from "../collision/Shape";
 import common from '../util/common';
-import Math from '../common/Math';
-import Vec2 from '../common/Vec2';
-import Transform from '../common/Transform';
-import Mat22 from '../common/Mat22';
-import Rot from '../common/Rot';
-import Settings from '../Settings';
-import Manifold, { ManifoldType, WorldManifold } from '../collision/Manifold';
+import { PlanckMath } from '../common/Math';
+import { Vec2 } from '../common/Vec2';
+import { Transform } from '../common/Transform';
+import { Mat22 } from '../common/Mat22';
+import { Rot } from '../common/Rot';
+import { Settings } from '../Settings';
+import { ManifoldType, WorldManifold, Manifold } from '../collision/Manifold';
 import { testOverlap } from '../collision/Distance';
-import Fixture from "./Fixture";
-import Body from "./Body";
+import { Fixture } from "./Fixture";
+import { Body } from "./Body";
 import { ContactImpulse, TimeStep } from "./Solver";
 
 
@@ -89,7 +89,7 @@ export type ContactCallback = (
  * restitution to zero. For example, anything slides on ice.
  */
 export function mixFriction(friction1: number, friction2: number): number {
-  return Math.sqrt(friction1 * friction2);
+  return PlanckMath.sqrt(friction1 * friction2);
 }
 
 /**
@@ -119,7 +119,7 @@ export class VelocityConstraintPoint {
  * overlapping AABB in the broad-phase (except if filtered). Therefore a contact
  * object may exist that has no contact points.
  */
-export default class Contact {
+export class Contact {
   /** @internal */
   m_nodeA: ContactEdge;
   /** @internal */
@@ -619,14 +619,14 @@ export default class Contact {
       const rB = Vec2.sub(point, cB);
 
       // Track max constraint error.
-      minSeparation = Math.min(minSeparation, separation);
+      minSeparation = PlanckMath.min(minSeparation, separation);
 
       const baumgarte = toi ? Settings.toiBaugarte : Settings.baumgarte;
       const linearSlop = Settings.linearSlop;
       const maxLinearCorrection = Settings.maxLinearCorrection;
 
       // Prevent large corrections and allow slop.
-      const C = Math.clamp(baumgarte * (separation + linearSlop), -maxLinearCorrection, 0.0);
+      const C = PlanckMath.clamp(baumgarte * (separation + linearSlop), -maxLinearCorrection, 0.0);
 
       // Compute the effective mass.
       const rnA = Vec2.crossVec2Vec2(rA, normal);
@@ -864,7 +864,7 @@ export default class Contact {
 
       // Clamp the accumulated force
       const maxFriction = friction * vcp.normalImpulse;
-      const newImpulse = Math.clamp(vcp.tangentImpulse + lambda, -maxFriction, maxFriction);
+      const newImpulse = PlanckMath.clamp(vcp.tangentImpulse + lambda, -maxFriction, maxFriction);
       lambda = newImpulse - vcp.tangentImpulse;
       vcp.tangentImpulse = newImpulse;
 
@@ -893,7 +893,7 @@ export default class Contact {
         let lambda = -vcp.normalMass * (vn - vcp.velocityBias);
 
         // Clamp the accumulated impulse
-        const newImpulse = Math.max(vcp.normalImpulse + lambda, 0.0);
+        const newImpulse = PlanckMath.max(vcp.normalImpulse + lambda, 0.0);
         lambda = newImpulse - vcp.normalImpulse;
         vcp.normalImpulse = newImpulse;
 
@@ -1009,8 +1009,8 @@ export default class Contact {
             vn1 = Vec2.dot(dv1, normal);
             vn2 = Vec2.dot(dv2, normal);
 
-            _ASSERT && common.assert(Math.abs(vn1 - vcp1.velocityBias) < k_errorTol);
-            _ASSERT && common.assert(Math.abs(vn2 - vcp2.velocityBias) < k_errorTol);
+            _ASSERT && common.assert(PlanckMath.abs(vn1 - vcp1.velocityBias) < k_errorTol);
+            _ASSERT && common.assert(PlanckMath.abs(vn2 - vcp2.velocityBias) < k_errorTol);
           }
           break;
         }
@@ -1052,7 +1052,7 @@ export default class Contact {
             // Compute normal velocity
             vn1 = Vec2.dot(dv1, normal);
 
-            _ASSERT && common.assert(Math.abs(vn1 - vcp1.velocityBias) < k_errorTol);
+            _ASSERT && common.assert(PlanckMath.abs(vn1 - vcp1.velocityBias) < k_errorTol);
           }
           break;
         }
@@ -1094,7 +1094,7 @@ export default class Contact {
             // Compute normal velocity
             vn2 = Vec2.dot(dv2, normal);
 
-            _ASSERT && common.assert(Math.abs(vn2 - vcp2.velocityBias) < k_errorTol);
+            _ASSERT && common.assert(PlanckMath.abs(vn2 - vcp2.velocityBias) < k_errorTol);
           }
           break;
         }

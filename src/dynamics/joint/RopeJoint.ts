@@ -23,12 +23,12 @@
  */
 
 import options from '../../util/options';
-import Settings from '../../Settings';
-import Math from '../../common/Math';
-import Vec2 from '../../common/Vec2';
-import Rot from '../../common/Rot';
-import Joint, { JointOpt, JointDef } from '../Joint';
-import Body from '../Body';
+import { Settings } from '../../Settings';
+import { PlanckMath } from '../../common/Math';
+import { Vec2 } from '../../common/Vec2';
+import { Rot } from '../../common/Rot';
+import { JointOpt, JointDef, Joint } from '../Joint';
+import { Body } from '../Body';
 import { TimeStep } from "../Solver";
 
 const inactiveLimit = 0;
@@ -79,7 +79,7 @@ const DEFAULTS = {
  * sponginess, so I chose not to implement it that way. See {@link DistanceJoint} if you
  * want to dynamically control length.
  */
-export default class RopeJoint extends Joint {
+export class RopeJoint extends Joint {
   
 
   /** @internal */ m_type: 'rope-joint';
@@ -315,7 +315,7 @@ export default class RopeJoint extends Joint {
 
     let impulse = -this.m_mass * Cdot; // float
     const oldImpulse = this.m_impulse; // float
-    this.m_impulse = Math.min(0.0, this.m_impulse + impulse);
+    this.m_impulse = PlanckMath.min(0.0, this.m_impulse + impulse);
     impulse = this.m_impulse - oldImpulse;
 
     const P = Vec2.mulNumVec2(impulse, this.m_u); // Vec2
@@ -351,7 +351,7 @@ export default class RopeJoint extends Joint {
     const length = u.normalize(); // float
     let C = length - this.m_maxLength; // float
 
-    C = Math.clamp(C, 0.0, Settings.maxLinearCorrection);
+    C = PlanckMath.clamp(C, 0.0, Settings.maxLinearCorrection);
 
     const impulse = -this.m_mass * C; // float
     const P = Vec2.mulNumVec2(impulse, u); // Vec2

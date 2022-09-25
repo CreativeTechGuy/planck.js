@@ -23,14 +23,14 @@
  */
 
 import type { MassData } from '../../dynamics/Body';
-import AABB, { RayCastOutput, RayCastInput } from '../AABB';
+import { RayCastOutput, RayCastInput, AABB } from '../AABB';
 import { DistanceProxy } from '../Distance';
 import common from '../../util/common';
-import Transform from '../../common/Transform';
-import Vec2 from '../../common/Vec2';
-import Settings from '../../Settings';
-import Shape from '../Shape';
-import EdgeShape from './EdgeShape';
+import { Transform } from '../../common/Transform';
+import { Vec2 } from '../../common/Vec2';
+import { Settings } from '../../Settings';
+import { Shape } from '../Shape';
+import { Edge } from './EdgeShape';
 
 
 const _ASSERT = typeof ASSERT === 'undefined' ? false : ASSERT;
@@ -44,7 +44,7 @@ const _ASSERT = typeof ASSERT === 'undefined' ? false : ASSERT;
  *
  * WARNING: The chain will not collide properly if there are self-intersections.
  */
-export default class ChainShape extends Shape {
+export class Chain extends Shape {
   
 
   m_vertices: Vec2[];
@@ -58,8 +58,8 @@ export default class ChainShape extends Shape {
 
   constructor(vertices?: Vec2[], loop?: boolean) {
     // @ts-ignore
-    if (!(this instanceof ChainShape)) {
-      return new ChainShape(vertices, loop);
+    if (!(this instanceof Chain)) {
+      return new Chain(vertices, loop);
     }
 
     super();
@@ -105,14 +105,14 @@ export default class ChainShape extends Shape {
   }
 
   /** @internal */
-  static _deserialize(data: any, fixture: any, restore: any): ChainShape {
+  static _deserialize(data: any, fixture: any, restore: any): Chain {
     const vertices = [] as Vec2[];
     if (data.vertices) {
       for (let i = 0; i < data.vertices.length; i++) {
         vertices.push(restore(Vec2, data.vertices[i]));
       }
     }
-    const shape = new ChainShape(vertices, data.isLoop);
+    const shape = new Chain(vertices, data.isLoop);
     if (data.prevVertex) {
       shape.setPrevVertex(data.prevVertex);
     }
@@ -134,7 +134,7 @@ export default class ChainShape extends Shape {
    * @param vertices an array of vertices, these are copied
    * @param count the vertex count
    */
-  _createLoop(vertices: Vec2[]): ChainShape {
+  _createLoop(vertices: Vec2[]): Chain {
     _ASSERT && common.assert(this.m_vertices.length == 0 && this.m_count == 0);
     _ASSERT && common.assert(vertices.length >= 3);
     for (let i = 1; i < vertices.length; ++i) {
@@ -165,7 +165,7 @@ export default class ChainShape extends Shape {
    * @param vertices an array of vertices, these are copied
    * @param count the vertex count
    */
-  _createChain(vertices: Vec2[]): ChainShape {
+  _createChain(vertices: Vec2[]): Chain {
     _ASSERT && common.assert(this.m_vertices.length == 0 && this.m_count == 0);
     _ASSERT && common.assert(vertices.length >= 2);
     for (let i = 1; i < vertices.length; ++i) {
@@ -228,8 +228,8 @@ export default class ChainShape extends Shape {
    *
    * clone the concrete shape.
    */
-  _clone(): ChainShape {
-    const clone = new ChainShape();
+  _clone(): Chain {
+    const clone = new Chain();
     clone._createChain(this.m_vertices);
     clone.m_type = this.m_type;
     clone.m_radius = this.m_radius;
@@ -249,7 +249,7 @@ export default class ChainShape extends Shape {
   }
 
   // Get a child edge.
-  getChildEdge(edge: EdgeShape, childIndex: number): void {
+  getChildEdge(edge: Edge, childIndex: number): void {
     _ASSERT && common.assert(0 <= childIndex && childIndex < this.m_count - 1);
     edge.m_type = "edge";
     edge.m_radius = this.m_radius;
@@ -311,7 +311,7 @@ export default class ChainShape extends Shape {
   rayCast(output: RayCastOutput, input: RayCastInput, xf: Transform, childIndex: number): boolean {
     _ASSERT && common.assert(0 <= childIndex && childIndex < this.m_count);
 
-    const edgeShape = new EdgeShape(this.getVertex(childIndex), this.getVertex(childIndex + 1));
+    const edgeShape = new Edge(this.getVertex(childIndex), this.getVertex(childIndex + 1));
     return edgeShape.rayCast(output, input, xf, 0);
   }
 

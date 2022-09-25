@@ -22,12 +22,12 @@
  * SOFTWARE.
  */
 
-import Settings from '../Settings';
+import { Settings } from '../Settings';
 import common from '../util/common';
 import Pool from '../util/Pool';
-import Vec2 from '../common/Vec2';
-import Math from '../common/Math';
-import AABB, { RayCastCallback, RayCastInput } from './AABB';
+import { Vec2 } from '../common/Vec2';
+import { PlanckMath } from '../common/Math';
+import { RayCastCallback, RayCastInput, AABB } from './AABB';
 
 
 const _ASSERT = typeof ASSERT === 'undefined' ? false : ASSERT;
@@ -74,7 +74,7 @@ export class TreeNode<T> {
  * Nodes are pooled and relocatable, so we use node indices rather than
  * pointers.
  */
-export default class DynamicTree<T> {
+export class DynamicTree<T> {
   m_root: TreeNode<T>;
   m_lastProxyId: number;
   m_nodes: {
@@ -333,7 +333,7 @@ export default class DynamicTree<T> {
       _ASSERT && common.assert(child1 != null);
       _ASSERT && common.assert(child2 != null);
 
-      index.height = 1 + Math.max(child1.height, child2.height);
+      index.height = 1 + PlanckMath.max(child1.height, child2.height);
       index.aabb.combine(child1.aabb, child2.aabb);
 
       index = index.parent;
@@ -376,7 +376,7 @@ export default class DynamicTree<T> {
         const child2 = index.child2;
 
         index.aabb.combine(child1.aabb, child2.aabb);
-        index.height = 1 + Math.max(child1.height, child2.height);
+        index.height = 1 + PlanckMath.max(child1.height, child2.height);
 
         index = index.parent;
       }
@@ -435,8 +435,8 @@ export default class DynamicTree<T> {
         A.aabb.combine(B.aabb, G.aabb);
         C.aabb.combine(A.aabb, F.aabb);
 
-        A.height = 1 + Math.max(B.height, G.height);
-        C.height = 1 + Math.max(A.height, F.height);
+        A.height = 1 + PlanckMath.max(B.height, G.height);
+        C.height = 1 + PlanckMath.max(A.height, F.height);
       } else {
         C.child2 = G;
         A.child2 = F;
@@ -444,8 +444,8 @@ export default class DynamicTree<T> {
         A.aabb.combine(B.aabb, F.aabb);
         C.aabb.combine(A.aabb, G.aabb);
 
-        A.height = 1 + Math.max(B.height, F.height);
-        C.height = 1 + Math.max(A.height, G.height);
+        A.height = 1 + PlanckMath.max(B.height, F.height);
+        C.height = 1 + PlanckMath.max(A.height, G.height);
       }
 
       return C;
@@ -480,8 +480,8 @@ export default class DynamicTree<T> {
         A.aabb.combine(C.aabb, E.aabb);
         B.aabb.combine(A.aabb, D.aabb);
 
-        A.height = 1 + Math.max(C.height, E.height);
-        B.height = 1 + Math.max(A.height, D.height);
+        A.height = 1 + PlanckMath.max(C.height, E.height);
+        B.height = 1 + PlanckMath.max(A.height, D.height);
       } else {
         B.child2 = E;
         A.child1 = D;
@@ -489,8 +489,8 @@ export default class DynamicTree<T> {
         A.aabb.combine(C.aabb, D.aabb);
         B.aabb.combine(A.aabb, E.aabb);
 
-        A.height = 1 + Math.max(C.height, D.height);
-        B.height = 1 + Math.max(A.height, E.height);
+        A.height = 1 + PlanckMath.max(C.height, D.height);
+        B.height = 1 + PlanckMath.max(A.height, E.height);
       }
 
       return B;
@@ -558,7 +558,7 @@ export default class DynamicTree<T> {
 
     const height1 = this.computeHeight(node.child1.id);
     const height2 = this.computeHeight(node.child2.id);
-    return 1 + Math.max(height1, height2);
+    return 1 + PlanckMath.max(height1, height2);
   }
 
   validateStructure(node: TreeNode<T>): void {
@@ -610,7 +610,7 @@ export default class DynamicTree<T> {
 
     const height1 = child1.height;
     const height2 = child2.height;
-    const height = 1 + Math.max(height1, height2);
+    const height = 1 + PlanckMath.max(height1, height2);
     _ASSERT && common.assert(node.height === height);
 
     const aabb = new AABB();
@@ -647,8 +647,8 @@ export default class DynamicTree<T> {
 
       _ASSERT && common.assert(!node.isLeaf());
 
-      const balance = Math.abs(node.child2.height - node.child1.height);
-      maxBalance = Math.max(maxBalance, balance);
+      const balance = PlanckMath.abs(node.child2.height - node.child1.height);
+      maxBalance = PlanckMath.max(maxBalance, balance);
     }
     this.iteratorPool.release(it);
 
@@ -706,7 +706,7 @@ export default class DynamicTree<T> {
       const parent = this.allocateNode();
       parent.child1 = child1;
       parent.child2 = child2;
-      parent.height = 1 + Math.max(child1.height, child2.height);
+      parent.height = 1 + PlanckMath.max(child1.height, child2.height);
       parent.aabb.combine(child1.aabb, child2.aabb);
       parent.parent = null;
 
@@ -825,7 +825,7 @@ export default class DynamicTree<T> {
       // |dot(v, p1 - c)| > dot(|v|, h)
       const c = node.aabb.getCenter();
       const h = node.aabb.getExtents();
-      const separation = Math.abs(Vec2.dot(v, Vec2.sub(p1, c))) - Vec2.dot(abs_v, h);
+      const separation = PlanckMath.abs(Vec2.dot(v, Vec2.sub(p1, c))) - Vec2.dot(abs_v, h);
       if (separation > 0.0) {
         continue;
       }

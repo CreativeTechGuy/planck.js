@@ -23,14 +23,14 @@
  */
 
 import common from '../util/common';
-import Math from './Math';
+import { PlanckMath } from './Math';
 
 
 const _DEBUG = typeof DEBUG === 'undefined' ? false : DEBUG;
 const _ASSERT = typeof ASSERT === 'undefined' ? false : ASSERT;
 
 
-export default class Vec2 {
+export class Vec2 {
   x: number;
   y: number;
 
@@ -103,7 +103,7 @@ export default class Vec2 {
     if (obj === null || typeof obj === 'undefined') {
       return false;
     }
-    return Math.isFinite(obj.x) && Math.isFinite(obj.y);
+    return PlanckMath.isFinite(obj.x) && PlanckMath.isFinite(obj.y);
   }
 
   static assert(o: any): void {
@@ -143,8 +143,8 @@ export default class Vec2 {
       this.x = x.x;
       this.y = x.y;
     } else {
-      _ASSERT && Math.assert(x);
-      _ASSERT && Math.assert(y);
+      _ASSERT && PlanckMath.assert(x);
+      _ASSERT && PlanckMath.assert(y);
       this.x = x;
       this.y = y;
     }
@@ -157,8 +157,8 @@ export default class Vec2 {
    * @returns this
    */
    setNum(x: number, y: number) {
-    _ASSERT && Math.assert(x);
-    _ASSERT && Math.assert(y);
+    _ASSERT && PlanckMath.assert(x);
+    _ASSERT && PlanckMath.assert(y);
     this.x = x;
     this.y = y;
 
@@ -194,9 +194,9 @@ export default class Vec2 {
    * Set linear combination of v and w: `a * v + b * w`
    */
   setCombine(a: number, v: Vec2, b: number, w: Vec2): Vec2 {
-    _ASSERT && Math.assert(a);
+    _ASSERT && PlanckMath.assert(a);
     _ASSERT && Vec2.assert(v);
-    _ASSERT && Math.assert(b);
+    _ASSERT && PlanckMath.assert(b);
     _ASSERT && Vec2.assert(w);
     const x = a * v.x + b * w.x;
     const y = a * v.y + b * w.y;
@@ -208,7 +208,7 @@ export default class Vec2 {
   }
 
   setMul(a: number, v: Vec2): Vec2 {
-    _ASSERT && Math.assert(a);
+    _ASSERT && PlanckMath.assert(a);
     _ASSERT && Vec2.assert(v);
     const x = a * v.x;
     const y = a * v.y;
@@ -246,9 +246,9 @@ export default class Vec2 {
    * Add linear combination of v and w: `a * v + b * w`
    */
   addCombine(a: number, v: Vec2, b: number, w: Vec2): Vec2 {
-    _ASSERT && Math.assert(a);
+    _ASSERT && PlanckMath.assert(a);
     _ASSERT && Vec2.assert(v);
-    _ASSERT && Math.assert(b);
+    _ASSERT && PlanckMath.assert(b);
     _ASSERT && Vec2.assert(w);
 
     const x = a * v.x + b * w.x;
@@ -261,7 +261,7 @@ export default class Vec2 {
   }
 
   addMul(a: number, v: Vec2): Vec2 {
-    _ASSERT && Math.assert(a);
+    _ASSERT && PlanckMath.assert(a);
     _ASSERT && Vec2.assert(v);
     const x = a * v.x;
     const y = a * v.y;
@@ -285,9 +285,9 @@ export default class Vec2 {
    * Subtract linear combination of v and w: `a * v + b * w`
    */
   subCombine(a: number, v: Vec2, b: number, w: Vec2): Vec2 {
-    _ASSERT && Math.assert(a);
+    _ASSERT && PlanckMath.assert(a);
     _ASSERT && Vec2.assert(v);
-    _ASSERT && Math.assert(b);
+    _ASSERT && PlanckMath.assert(b);
     _ASSERT && Vec2.assert(w);
     const x = a * v.x + b * w.x;
     const y = a * v.y + b * w.y;
@@ -299,7 +299,7 @@ export default class Vec2 {
   }
 
   subMul(a: number, v: Vec2): Vec2 {
-    _ASSERT && Math.assert(a);
+    _ASSERT && PlanckMath.assert(a);
     _ASSERT && Vec2.assert(v);
     const x = a * v.x;
     const y = a * v.y;
@@ -327,7 +327,7 @@ export default class Vec2 {
    * @returns this
    */
   mul(m: number): Vec2 {
-    _ASSERT && Math.assert(m);
+    _ASSERT && PlanckMath.assert(m);
     this.x *= m;
     this.y *= m;
     return this;
@@ -356,7 +356,7 @@ export default class Vec2 {
    */
   normalize(): number {
     const length = this.length();
-    if (length < Math.EPSILON) {
+    if (length < PlanckMath.EPSILON) {
       return 0.0;
     }
     const invLength = 1.0 / length;
@@ -372,7 +372,7 @@ export default class Vec2 {
    */
   static lengthOf(v: Vec2): number {
     _ASSERT && Vec2.assert(v);
-    return Math.sqrt(v.x * v.x + v.y * v.y);
+    return PlanckMath.sqrt(v.x * v.x + v.y * v.y);
   }
 
   /**
@@ -388,7 +388,7 @@ export default class Vec2 {
     _ASSERT && Vec2.assert(w);
     const dx = v.x - w.x;
     const dy = v.y - w.y;
-    return Math.sqrt(dx * dx + dy * dy);
+    return PlanckMath.sqrt(dx * dx + dy * dy);
   }
 
   static distanceSquared(v: Vec2, w: Vec2): number {
@@ -435,11 +435,11 @@ export default class Vec2 {
   static cross(v, w) {
     if (typeof w === 'number') {
       _ASSERT && Vec2.assert(v);
-      _ASSERT && Math.assert(w);
+      _ASSERT && PlanckMath.assert(w);
       return Vec2.neo(w * v.y, -w * v.x);
 
     } else if (typeof v === 'number') {
-      _ASSERT && Math.assert(v);
+      _ASSERT && PlanckMath.assert(v);
       _ASSERT && Vec2.assert(w);
       return Vec2.neo(-v * w.y, v * w.x);
 
@@ -465,7 +465,7 @@ export default class Vec2 {
    */
   static crossVec2Num(v: Vec2, w: number): Vec2 {
     _ASSERT && Vec2.assert(v);
-    _ASSERT && Math.assert(w);
+    _ASSERT && PlanckMath.assert(w);
     return Vec2.neo(w * v.y, -w * v.x);
   }
 
@@ -474,7 +474,7 @@ export default class Vec2 {
    * vector.
    */
   static crossNumVec2(v: number, w: Vec2): Vec2 {
-    _ASSERT && Math.assert(v);
+    _ASSERT && PlanckMath.assert(v);
     _ASSERT && Vec2.assert(w);
     return Vec2.neo(-v * w.y, v * w.x);
   }
@@ -488,11 +488,11 @@ export default class Vec2 {
   static addCross(a, v, w) {
     if (typeof w === 'number') {
       _ASSERT && Vec2.assert(v);
-      _ASSERT && Math.assert(w);
+      _ASSERT && PlanckMath.assert(w);
       return Vec2.neo(w * v.y + a.x, -w * v.x + a.y);
 
     } else if (typeof v === 'number') {
-      _ASSERT && Math.assert(v);
+      _ASSERT && PlanckMath.assert(v);
       _ASSERT && Vec2.assert(w);
       return Vec2.neo(-v * w.y + a.x, v * w.x + a.y);
     }
@@ -505,7 +505,7 @@ export default class Vec2 {
    */
   static addCrossVec2Num(a: Vec2, v: Vec2, w: number): Vec2 {
     _ASSERT && Vec2.assert(v);
-    _ASSERT && Math.assert(w);
+    _ASSERT && PlanckMath.assert(w);
     return Vec2.neo(w * v.y + a.x, -w * v.x + a.y);
   }
 
@@ -513,7 +513,7 @@ export default class Vec2 {
    * Returns `a + (v x w)`
    */
   static addCrossNumVec2(a: Vec2, v: number, w: Vec2): Vec2 {
-    _ASSERT && Math.assert(v);
+    _ASSERT && PlanckMath.assert(v);
     _ASSERT && Vec2.assert(w);
     return Vec2.neo(-v * w.y + a.x, v * w.x + a.y);
   }
@@ -549,11 +549,11 @@ export default class Vec2 {
   static mul(a, b) {
     if (typeof a === 'object') {
       _ASSERT && Vec2.assert(a);
-      _ASSERT && Math.assert(b);
+      _ASSERT && PlanckMath.assert(b);
       return Vec2.neo(a.x * b, a.y * b);
 
     } else if (typeof b === 'object') {
-      _ASSERT && Math.assert(a);
+      _ASSERT && PlanckMath.assert(a);
       _ASSERT && Vec2.assert(b);
       return Vec2.neo(a * b.x, a * b.y);
     }
@@ -561,12 +561,12 @@ export default class Vec2 {
 
   static mulVec2Num(a: Vec2, b: number): Vec2 {
     _ASSERT && Vec2.assert(a);
-    _ASSERT && Math.assert(b);
+    _ASSERT && PlanckMath.assert(b);
     return Vec2.neo(a.x * b, a.y * b);
   }
 
   static mulNumVec2(a: number, b: Vec2): Vec2 {
-    _ASSERT && Math.assert(a);
+    _ASSERT && PlanckMath.assert(a);
     _ASSERT && Vec2.assert(b);
     return Vec2.neo(a * b.x, a * b.y);
   }
@@ -584,7 +584,7 @@ export default class Vec2 {
 
   static abs(v: Vec2): Vec2 {
     _ASSERT && Vec2.assert(v);
-    return Vec2.neo(Math.abs(v.x), Math.abs(v.y));
+    return Vec2.neo(PlanckMath.abs(v.x), PlanckMath.abs(v.y));
   }
 
   static mid(v: Vec2, w: Vec2): Vec2 {
@@ -596,19 +596,19 @@ export default class Vec2 {
   static upper(v: Vec2, w: Vec2): Vec2 {
     _ASSERT && Vec2.assert(v);
     _ASSERT && Vec2.assert(w);
-    return Vec2.neo(Math.max(v.x, w.x), Math.max(v.y, w.y));
+    return Vec2.neo(PlanckMath.max(v.x, w.x), PlanckMath.max(v.y, w.y));
   }
 
   static lower(v: Vec2, w: Vec2): Vec2 {
     _ASSERT && Vec2.assert(v);
     _ASSERT && Vec2.assert(w);
-    return Vec2.neo(Math.min(v.x, w.x), Math.min(v.y, w.y));
+    return Vec2.neo(PlanckMath.min(v.x, w.x), PlanckMath.min(v.y, w.y));
   }
 
   clamp(max: number): Vec2 {
     const lengthSqr = this.x * this.x + this.y * this.y;
     if (lengthSqr > max * max) {
-      const invLength = Math.invSqrt(lengthSqr);
+      const invLength = PlanckMath.invSqrt(lengthSqr);
       this.x *= invLength * max;
       this.y *= invLength * max;
     }

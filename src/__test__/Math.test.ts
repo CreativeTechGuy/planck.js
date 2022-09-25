@@ -1,20 +1,20 @@
 import { expect } from 'chai';
 
-import Math from '../common/Math';
-import Vec2 from '../common/Vec2';
-import Vec3 from '../common/Vec3';
+import { PlanckMath } from '../common/Math';
+import { Vec2 } from '../common/Vec2';
+import { Vec3 } from '../common/Vec3';
 
 describe('Math', function(): void {
 
   it('Math', function(): void {
-    expect(Math.isFinite(+'NaN')).equal(false);
-    expect(Math.isFinite(Infinity)).equal(false);
-    expect(Math.isFinite('0')).equal(false);
-    expect(Math.isFinite('')).equal(false);
+    expect(PlanckMath.isFinite(+'NaN')).equal(false);
+    expect(PlanckMath.isFinite(Infinity)).equal(false);
+    expect(PlanckMath.isFinite('0')).equal(false);
+    expect(PlanckMath.isFinite('')).equal(false);
 
-    expect(Math.isFinite(1)).equal(true);
-    expect(Math.isFinite(0)).equal(true);
-    expect(Math.isFinite(-1)).equal(true);
+    expect(PlanckMath.isFinite(1)).equal(true);
+    expect(PlanckMath.isFinite(0)).equal(true);
+    expect(PlanckMath.isFinite(-1)).equal(true);
 
     // InvSqrt
     // NextPowerOfTwo

@@ -24,12 +24,12 @@
 
 import common from '../../util/common';
 import options from '../../util/options';
-import Settings from '../../Settings';
-import Math from '../../common/Math';
-import Vec2 from '../../common/Vec2';
-import Rot from '../../common/Rot';
-import Joint, { JointOpt, JointDef } from '../Joint';
-import Body from '../Body';
+import { Settings } from '../../Settings';
+import { PlanckMath } from '../../common/Math';
+import { Vec2 } from '../../common/Vec2';
+import { Rot } from '../../common/Rot';
+import { JointOpt, JointDef, Joint } from '../Joint';
+import { Body } from '../Body';
 import { TimeStep } from "../Solver";
 
 
@@ -93,7 +93,7 @@ const DEFAULTS = {
  * anchor points with static shapes to prevent one side from going to zero
  * length.
  */
-export default class PulleyJoint extends Joint {
+export class PulleyJoint extends Joint {
   
   // static MIN_PULLEY_LENGTH: number = 2.0; // TODO where this is used?
 
@@ -139,11 +139,11 @@ export default class PulleyJoint extends Joint {
     this.m_groundAnchorB = groundB ? groundB : def.groundAnchorB || Vec2.neo(1.0, 1.0);
     this.m_localAnchorA = anchorA ? bodyA.getLocalPoint(anchorA) : def.localAnchorA || Vec2.neo(-1.0, 0.0);
     this.m_localAnchorB = anchorB ? bodyB.getLocalPoint(anchorB) : def.localAnchorB || Vec2.neo(1.0, 0.0);
-    this.m_lengthA = Math.isFinite(def.lengthA) ? def.lengthA : Vec2.distance(anchorA, groundA);
-    this.m_lengthB = Math.isFinite(def.lengthB) ? def.lengthB : Vec2.distance(anchorB, groundB);
-    this.m_ratio = Math.isFinite(ratio) ? ratio : def.ratio;
+    this.m_lengthA = PlanckMath.isFinite(def.lengthA) ? def.lengthA : Vec2.distance(anchorA, groundA);
+    this.m_lengthB = PlanckMath.isFinite(def.lengthB) ? def.lengthB : Vec2.distance(anchorB, groundB);
+    this.m_ratio = PlanckMath.isFinite(ratio) ? ratio : def.ratio;
 
-    _ASSERT && common.assert(ratio > Math.EPSILON);
+    _ASSERT && common.assert(ratio > PlanckMath.EPSILON);
 
     this.m_constant = this.m_lengthA + this.m_ratio * this.m_lengthB;
 
@@ -435,7 +435,7 @@ export default class PulleyJoint extends Joint {
     }
 
     const C = this.m_constant - lengthA - this.m_ratio * lengthB; // float
-    const linearError = Math.abs(C); // float
+    const linearError = PlanckMath.abs(C); // float
 
     const impulse = -mass * C; // float
 

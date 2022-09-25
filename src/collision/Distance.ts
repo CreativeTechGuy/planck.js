@@ -22,15 +22,15 @@
  * SOFTWARE.
  */
 
-import Settings from '../Settings';
+import { Settings } from '../Settings';
 import stats from '../util/stats';
 import common from '../util/common';
 
-import Shape from './Shape';
-import Math from '../common/Math';
-import Vec2 from '../common/Vec2';
-import Rot from '../common/Rot';
-import Transform from '../common/Transform';
+import { Shape } from './Shape';
+import { PlanckMath } from '../common/Math';
+import { Vec2 } from '../common/Vec2';
+import { Rot } from '../common/Rot';
+import { Transform } from '../common/Transform';
 
 
 const _ASSERT = typeof ASSERT === 'undefined' ? false : ASSERT;
@@ -91,7 +91,7 @@ export class SimplexCache {
  * CircleShape, PolygonShape, EdgeShape. The simplex cache is input/output. On
  * the first call set SimplexCache.count to zero.
  */
-export default function Distance(output: DistanceOutput, cache: SimplexCache, input: DistanceInput): void {
+export function Distance(output: DistanceOutput, cache: SimplexCache, input: DistanceInput): void {
   ++stats.gjkCalls;
 
   const proxyA = input.proxyA;
@@ -147,7 +147,7 @@ export default function Distance(output: DistanceOutput, cache: SimplexCache, in
     const d = simplex.getSearchDirection();
 
     // Ensure the search direction is numerically fit.
-    if (d.lengthSquared() < Math.EPSILON * Math.EPSILON) {
+    if (d.lengthSquared() < PlanckMath.EPSILON * PlanckMath.EPSILON) {
       // The origin is probably contained by a line segment
       // or triangle. Thus the shapes are overlapped.
 
@@ -191,7 +191,7 @@ export default function Distance(output: DistanceOutput, cache: SimplexCache, in
     ++simplex.m_count;
   }
 
-  stats.gjkMaxIters = Math.max(stats.gjkMaxIters, iter);
+  stats.gjkMaxIters = PlanckMath.max(stats.gjkMaxIters, iter);
 
   // Prepare output.
   simplex.getWitnessPoints(output.pointA, output.pointB);
@@ -206,7 +206,7 @@ export default function Distance(output: DistanceOutput, cache: SimplexCache, in
     const rA = proxyA.m_radius;
     const rB = proxyB.m_radius;
 
-    if (output.distance > rA + rB && output.distance > Math.EPSILON) {
+    if (output.distance > rA + rB && output.distance > PlanckMath.EPSILON) {
       // Shapes are still no overlapped.
       // Move the witness points to the outer surface.
       output.distance -= rA + rB;
@@ -380,7 +380,7 @@ class Simplex {
       const metric1 = cache.metric;
       const metric2 = this.getMetric();
       if (metric2 < 0.5 * metric1 || 2.0 * metric1 < metric2
-        || metric2 < Math.EPSILON) {
+        || metric2 < PlanckMath.EPSILON) {
         // Reset the simplex.
         this.m_count = 0;
       }
@@ -701,5 +701,5 @@ export function testOverlap(shapeA: Shape, indexA: number, shapeB: Shape, indexB
 
   Distance(output, cache, input);
 
-  return output.distance < 10.0 * Math.EPSILON;
+  return output.distance < 10.0 * PlanckMath.EPSILON;
 }

@@ -23,10 +23,10 @@
  */
 
 import common from '../util/common';
-import Math from './Math';
-import Vec2 from './Vec2';
-import Rot from './Rot';
-import Transform from './Transform';
+import { PlanckMath } from './Math';
+import { Vec2 } from './Vec2';
+import { Rot } from './Rot';
+import { Transform } from './Transform';
 
 
 const _ASSERT = typeof ASSERT === 'undefined' ? false : ASSERT;
@@ -38,7 +38,7 @@ const _ASSERT = typeof ASSERT === 'undefined' ? false : ASSERT;
  * center of mass. However, to support dynamics we must interpolate the center
  * of mass position.
  */
-export default class Sweep {
+export class Sweep {
   /** Local center of mass position */
   localCenter: Vec2;
 
@@ -118,7 +118,7 @@ export default class Sweep {
    * normalize the angles in radians to be between -pi and pi.
    */
   normalize(): void {
-    const a0 = Math.mod(this.a0, -Math.PI, +Math.PI);
+    const a0 = PlanckMath.mod(this.a0, -PlanckMath.PI, +PlanckMath.PI);
     this.a -= this.a0 - a0;
     this.a0 = a0;
   }

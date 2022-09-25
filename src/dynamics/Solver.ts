@@ -22,16 +22,16 @@
  * SOFTWARE.
  */
 
-import Settings from '../Settings';
+import { Settings } from '../Settings';
 import common from '../util/common';
-import Vec2 from '../common/Vec2';
-import Math from '../common/Math';
-import Body from './Body';
-import Contact from './Contact';
-import Joint from './Joint';
-import TimeOfImpact, { TOIInput, TOIOutput, TOIOutputState } from '../collision/TimeOfImpact';
-import Distance, { DistanceInput, DistanceOutput, SimplexCache } from '../collision/Distance';
-import World from "./World";
+import { Vec2 } from '../common/Vec2';
+import { PlanckMath } from '../common/Math';
+import { Body } from './Body';
+import { Contact } from './Contact';
+import { Joint } from './Joint';
+import { TOIInput, TOIOutput, TOIOutputState, TimeOfImpact } from '../collision/TimeOfImpact';
+import { DistanceInput, DistanceOutput, SimplexCache, Distance } from '../collision/Distance';
+import { World } from "./World";
 
 
 const _DEBUG = typeof DEBUG === 'undefined' ? false : DEBUG;
@@ -108,7 +108,7 @@ export class ContactImpulse {
 /**
  * Finds and solves islands. An island is a connected subset of the world.
  */
-export default class Solver {
+export class Solver {
   m_world: World;
   m_stack: Body[];
   m_bodies: Body[];
@@ -400,7 +400,7 @@ export default class Solver {
 
       const rotation = h * w;
       if (rotation * rotation > Settings.maxRotationSquared) {
-        const ratio = Settings.maxRotation / Math.abs(rotation);
+        const ratio = Settings.maxRotation / PlanckMath.abs(rotation);
         w *= ratio;
       }
 
@@ -423,7 +423,7 @@ export default class Solver {
       for (let j = 0; j < this.m_contacts.length; ++j) {
         const contact = this.m_contacts[j];
         const separation = contact.solvePositionConstraint(step);
-        minSeparation = Math.min(minSeparation, separation);
+        minSeparation = PlanckMath.min(minSeparation, separation);
       }
       // We can't expect minSpeparation >= -Settings.linearSlop because we don't
       // push the separation above -Settings.linearSlop.
@@ -477,7 +477,7 @@ export default class Solver {
           minSleepTime = 0.0;
         } else {
           body.m_sleepTime += h;
-          minSleepTime = Math.min(minSleepTime, body.m_sleepTime);
+          minSleepTime = PlanckMath.min(minSleepTime, body.m_sleepTime);
         }
       }
 
@@ -604,7 +604,7 @@ export default class Solver {
           // Beta is the fraction of the remaining portion of the [time?].
           const beta = output.t;
           if (output.state == TOIOutputState.e_touching) {
-            alpha = Math.min(alpha0 + (1.0 - alpha0) * beta, 1.0);
+            alpha = PlanckMath.min(alpha0 + (1.0 - alpha0) * beta, 1.0);
           } else {
             alpha = 1.0;
           }
@@ -620,7 +620,7 @@ export default class Solver {
         }
       }
 
-      if (minContact == null || 1.0 - 10.0 * Math.EPSILON < minAlpha) {
+      if (minContact == null || 1.0 - 10.0 * PlanckMath.EPSILON < minAlpha) {
         // No more TOI events. Done!
         world.m_stepComplete = true;
         break;
@@ -802,7 +802,7 @@ export default class Solver {
       for (let j = 0; j < this.m_contacts.length; ++j) {
         const contact = this.m_contacts[j];
         const separation = contact.solvePositionConstraintTOI(subStep, toiA, toiB);
-        minSeparation = Math.min(minSeparation, separation);
+        minSeparation = PlanckMath.min(minSeparation, separation);
       }
       // We can't expect minSpeparation >= -Settings.linearSlop because we don't
       // push the separation above -Settings.linearSlop.
@@ -886,7 +886,7 @@ export default class Solver {
 
       const rotation = h * w;
       if (rotation * rotation > Settings.maxRotationSquared) {
-        const ratio = Settings.maxRotation / Math.abs(rotation);
+        const ratio = Settings.maxRotation / PlanckMath.abs(rotation);
         w *= ratio;
       }
 

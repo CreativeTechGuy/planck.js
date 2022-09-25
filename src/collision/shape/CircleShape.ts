@@ -23,12 +23,12 @@
  */
 
 import common from '../../util/common';
-import Math from '../../common/Math';
-import Rot from '../../common/Rot';
-import Vec2 from '../../common/Vec2';
-import Shape from '../Shape';
-import AABB, { RayCastInput, RayCastOutput } from '../AABB';
-import Transform from '../../common/Transform';
+import { PlanckMath } from '../../common/Math';
+import { Rot } from '../../common/Rot';
+import { Vec2 } from '../../common/Vec2';
+import { Shape } from '../Shape';
+import { RayCastInput, RayCastOutput, AABB } from '../AABB';
+import { Transform } from '../../common/Transform';
 import { MassData } from '../../dynamics/Body';
 import { DistanceProxy } from '../Distance';
 
@@ -36,7 +36,7 @@ import { DistanceProxy } from '../Distance';
 const _ASSERT = typeof ASSERT === 'undefined' ? false : ASSERT;
 
 
-export default class CircleShape extends Shape {
+export class Circle extends Shape {
   
 
   m_p: Vec2;
@@ -46,8 +46,8 @@ export default class CircleShape extends Shape {
   // tslint:disable-next-line:typedef
   constructor(a, b?) {
     // @ts-ignore
-    if (!(this instanceof CircleShape)) {
-      return new CircleShape(a, b);
+    if (!(this instanceof Circle)) {
+      return new Circle(a, b);
     }
 
     super();
@@ -79,8 +79,8 @@ export default class CircleShape extends Shape {
   }
 
   /** @internal */
-  static _deserialize(data: any): CircleShape {
-    return new CircleShape(data.p, data.radius);
+  static _deserialize(data: any): Circle {
+    return new Circle(data.p, data.radius);
   }
 
   // TODO: already defined in Shape
@@ -103,8 +103,8 @@ export default class CircleShape extends Shape {
    *
    * clone the concrete shape.
    */
-  _clone(): CircleShape {
-    const clone = new CircleShape();
+  _clone(): Circle {
+    const clone = new Circle();
     clone.m_type = this.m_type;
     clone.m_radius = this.m_radius;
     clone.m_p = this.m_p.clone();
@@ -156,12 +156,12 @@ export default class CircleShape extends Shape {
     const sigma = c * c - rr * b;
 
     // Check for negative discriminant and short segment.
-    if (sigma < 0.0 || rr < Math.EPSILON) {
+    if (sigma < 0.0 || rr < PlanckMath.EPSILON) {
       return false;
     }
 
     // Find the point of intersection of the line with the circle.
-    let a = -(c + Math.sqrt(sigma));
+    let a = -(c + PlanckMath.sqrt(sigma));
 
     // Is the intersection point on the segment?
     if (0.0 <= a && a <= input.maxFraction * rr) {
@@ -197,7 +197,7 @@ export default class CircleShape extends Shape {
    * @param density The density in kilograms per meter squared.
    */
   computeMass(massData: MassData, density: number): void {
-    massData.mass = density * Math.PI * this.m_radius * this.m_radius;
+    massData.mass = density * PlanckMath.PI * this.m_radius * this.m_radius;
     massData.center = this.m_p;
     // inertia about the local origin
     massData.I = massData.mass

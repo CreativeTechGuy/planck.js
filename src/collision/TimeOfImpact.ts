@@ -22,19 +22,19 @@
  * SOFTWARE.
  */
 
-import Settings from '../Settings';
+import { Settings } from '../Settings';
 
 import common from '../util/common';
 import stats from '../util/stats';
 import Timer from '../util/Timer';
 
-import Math from '../common/Math';
-import Vec2 from '../common/Vec2';
-import Rot from '../common/Rot';
-import Sweep from '../common/Sweep';
-import Transform from '../common/Transform';
+import { PlanckMath } from '../common/Math';
+import { Vec2 } from '../common/Vec2';
+import { Rot } from '../common/Rot';
+import { Sweep } from '../common/Sweep';
+import { Transform } from '../common/Transform';
 
-import Distance, { DistanceInput, DistanceOutput, DistanceProxy, SimplexCache } from './Distance';
+import { DistanceInput, DistanceOutput, DistanceProxy, SimplexCache, Distance } from './Distance';
 
 
 const _ASSERT = typeof ASSERT === 'undefined' ? false : ASSERT;
@@ -88,7 +88,7 @@ stats.toiMaxRootIters = 0;
  * CCD via the local separating axis method. This seeks progression by computing
  * the largest time at which separation is maintained.
  */
-export default function TimeOfImpact(output: TOIOutput, input: TOIInput): void {
+export function TimeOfImpact(output: TOIOutput, input: TOIInput): void {
   const timer = Timer.now();
 
   ++stats.toiCalls;
@@ -110,7 +110,7 @@ export default function TimeOfImpact(output: TOIOutput, input: TOIInput): void {
   const tMax = input.tMax;
 
   const totalRadius = proxyA.m_radius + proxyB.m_radius;
-  const target = Math.max(Settings.linearSlop, totalRadius - 3.0 * Settings.linearSlop);
+  const target = PlanckMath.max(Settings.linearSlop, totalRadius - 3.0 * Settings.linearSlop);
   const tolerance = 0.25 * Settings.linearSlop;
   _ASSERT && common.assert(target > tolerance);
 
@@ -251,7 +251,7 @@ export default function TimeOfImpact(output: TOIOutput, input: TOIInput): void {
         const indexA = fcn.indexA;
         const indexB = fcn.indexB;
 
-        if (Math.abs(s - target) < tolerance) {
+        if (PlanckMath.abs(s - target) < tolerance) {
           // t2 holds a tentative value for t1
           t2 = t;
           break;
@@ -271,7 +271,7 @@ export default function TimeOfImpact(output: TOIOutput, input: TOIInput): void {
         }
       }
 
-      stats.toiMaxRootIters = Math.max(stats.toiMaxRootIters, rootIterCount);
+      stats.toiMaxRootIters = PlanckMath.max(stats.toiMaxRootIters, rootIterCount);
 
       ++pushBackIter;
 
@@ -295,10 +295,10 @@ export default function TimeOfImpact(output: TOIOutput, input: TOIInput): void {
     }
   }
 
-  stats.toiMaxIters = Math.max(stats.toiMaxIters, iter);
+  stats.toiMaxIters = PlanckMath.max(stats.toiMaxIters, iter);
 
   const time = Timer.diff(timer);
-  stats.toiMaxTime = Math.max(stats.toiMaxTime, time);
+  stats.toiMaxTime = PlanckMath.max(stats.toiMaxTime, time);
   stats.toiTime += time;
 }
 

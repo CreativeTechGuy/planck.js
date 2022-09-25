@@ -23,14 +23,14 @@
  */
 
 import common from '../../util/common';
-import Math from '../../common/Math';
-import Transform from '../../common/Transform';
-import Vec2 from '../../common/Vec2';
-import Contact from '../../dynamics/Contact';
-import CircleShape from './CircleShape';
-import PolygonShape from './PolygonShape';
-import Manifold, { ContactFeatureType, ManifoldType } from "../Manifold";
-import Fixture from "../../dynamics/Fixture";
+import { PlanckMath } from '../../common/Math';
+import { Transform } from '../../common/Transform';
+import { Vec2 } from '../../common/Vec2';
+import { Contact } from '../../dynamics/Contact';
+import { Circle } from './CircleShape';
+import { Polygon } from './PolygonShape';
+import { ContactFeatureType, ManifoldType, Manifold } from "../Manifold";
+import { Fixture } from "../../dynamics/Fixture";
 
 
 const _ASSERT = typeof ASSERT === 'undefined' ? false : ASSERT;
@@ -41,10 +41,10 @@ Contact.addType("polygon", "circle", PolygonCircleContact);
 function PolygonCircleContact(manifold: Manifold, xfA: Transform, fixtureA: Fixture, indexA: number, xfB: Transform, fixtureB: Fixture, indexB: number): void {
   _ASSERT && common.assert(fixtureA.getType() == "polygon");
   _ASSERT && common.assert(fixtureB.getType() == "circle");
-  CollidePolygonCircle(manifold, fixtureA.getShape() as PolygonShape, xfA, fixtureB.getShape() as CircleShape, xfB);
+  CollidePolygonCircle(manifold, fixtureA.getShape() as Polygon, xfA, fixtureB.getShape() as Circle, xfB);
 }
 
-export function CollidePolygonCircle(manifold: Manifold, polygonA: PolygonShape, xfA: Transform, circleB: CircleShape, xfB: Transform): void {
+export function CollidePolygonCircle(manifold: Manifold, polygonA: Polygon, xfA: Transform, circleB: Circle, xfB: Transform): void {
   manifold.pointCount = 0;
 
   // Compute circle position in the frame of the polygon.
@@ -80,7 +80,7 @@ export function CollidePolygonCircle(manifold: Manifold, polygonA: PolygonShape,
   const v2 = vertices[vertIndex2];
 
   // If the center is inside the polygon ...
-  if (separation < Math.EPSILON) {
+  if (separation < PlanckMath.EPSILON) {
     manifold.pointCount = 1;
     manifold.type = ManifoldType.e_faceA;
     manifold.localNormal.setVec2(normals[normalIndex]);
