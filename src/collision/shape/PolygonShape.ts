@@ -44,20 +44,12 @@ const _ASSERT = typeof ASSERT === 'undefined' ? false : ASSERT;
  * for a convex polygon. extends Shape
  */
 export class Polygon extends Shape {
-  
-
   m_centroid: Vec2;
   m_vertices: Vec2[]; // [Settings.maxPolygonVertices]
   m_normals: Vec2[]; // [Settings.maxPolygonVertices]
   m_count: number;
 
-  // @ts-ignore
   constructor(vertices?: Vec2[]) {
-    // @ts-ignore
-    if (!(this instanceof Polygon)) {
-      return new Polygon(vertices);
-    }
-
     super();
 
     this.m_type = "polygon";

@@ -6,6 +6,9 @@
     * remove testbed: enable removing stage-js dependency
     * remove deprecated internal export
 * Exported all types
+* Rename `Math` export to `PlanckMath` to not cause confusion with default Math object
+* Upgraded TypeScript
+* Require constructors to be called with `new`
 
 ## 0.2
 * TypeScript definitions added

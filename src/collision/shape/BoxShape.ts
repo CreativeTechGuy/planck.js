@@ -29,14 +29,7 @@ import { Polygon } from './PolygonShape';
  * A rectangle polygon which extend PolygonShape.
  */
 export class Box extends Polygon {
-  
-
   constructor(hx: number, hy: number, center?: Vec2, angle?: number) {
-    // @ts-ignore
-    if (!(this instanceof Box)) {
-      return new Box(hx, hy, center, angle);
-    }
-
     super();
 
     this._setAsBox(hx, hy, center, angle);

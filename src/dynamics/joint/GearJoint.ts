@@ -79,8 +79,7 @@ const DEFAULTS = {
  * combination will work).
  */
 export class GearJoint extends Joint {
-  
-
+  // @ts-expect-error
   /** @internal */ m_type: 'gear-joint';
   /** @internal */ m_joint1: RevoluteJoint | PrismaticJoint;
   /** @internal */ m_joint2: RevoluteJoint | PrismaticJoint;
@@ -124,11 +123,6 @@ export class GearJoint extends Joint {
   constructor(def: GearJointDef);
   constructor(def: GearJointOpt, bodyA: Body, bodyB: Body, joint1: RevoluteJoint | PrismaticJoint, joint2: RevoluteJoint | PrismaticJoint, ratio?: number);
   constructor(def: GearJointDef, bodyA?: Body, bodyB?: Body, joint1?: RevoluteJoint | PrismaticJoint, joint2?: RevoluteJoint | PrismaticJoint, ratio?: number) {
-    // @ts-ignore
-    if (!(this instanceof GearJoint)) {
-      return new GearJoint(def, bodyA, bodyB, joint1, joint2, ratio);
-    }
-
     def = options(def, DEFAULTS);
     super(def, bodyA, bodyB);
     bodyA = this.m_bodyA;

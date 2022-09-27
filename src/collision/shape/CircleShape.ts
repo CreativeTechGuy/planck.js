@@ -37,19 +37,12 @@ const _ASSERT = typeof ASSERT === 'undefined' ? false : ASSERT;
 
 
 export class Circle extends Shape {
-  
-
   m_p: Vec2;
 
   constructor(position: Vec2, radius?: number);
   constructor(radius?: number);
   // tslint:disable-next-line:typedef
   constructor(a, b?) {
-    // @ts-ignore
-    if (!(this instanceof Circle)) {
-      return new Circle(a, b);
-    }
-
     super();
 
     this.m_type = "circle";

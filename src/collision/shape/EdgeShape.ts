@@ -37,8 +37,6 @@ import { DistanceProxy } from '../Distance';
  * contact normals.
  */
 export class Edge extends Shape {
-  
-
   // These are the edge vertices
   m_vertex1: Vec2;
   m_vertex2: Vec2;
@@ -51,11 +49,6 @@ export class Edge extends Shape {
   m_hasVertex3: boolean;
 
   constructor(v1?: Vec2, v2?: Vec2) {
-    // @ts-ignore
-    if (!(this instanceof Edge)) {
-      return new Edge(v1, v2);
-    }
-
     super();
 
     this.m_type = "edge";

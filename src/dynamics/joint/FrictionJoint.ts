@@ -75,8 +75,7 @@ const DEFAULTS = {
  * @param anchor Anchor in global coordination.
  */
 export class FrictionJoint extends Joint {
-  
-
+  // @ts-expect-error
   /** @internal */ m_type: 'friction-joint';
 
   /** @internal */ m_localAnchorA: Vec2;
@@ -103,11 +102,6 @@ export class FrictionJoint extends Joint {
   constructor(def: FrictionJointDef);
   constructor(def: FrictionJointOpt, bodyA: Body, bodyB: Body, anchor: Vec2);
   constructor(def: FrictionJointDef, bodyA?: Body, bodyB?: Body, anchor?: Vec2) {
-    // @ts-ignore
-    if (!(this instanceof FrictionJoint)) {
-      return new FrictionJoint(def, bodyA, bodyB, anchor);
-    }
-
     def = options(def, DEFAULTS);
     super(def, bodyA, bodyB);
     bodyA = this.m_bodyA;

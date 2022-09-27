@@ -79,8 +79,7 @@ const DEFAULTS = {
  * the ground.
  */
 export class MotorJoint extends Joint {
-  
-
+  // @ts-expect-error
   /** @internal */ m_type: 'motor-joint';
   /** @internal */ m_linearOffset: Vec2;
   /** @internal */ m_angularOffset: number;
@@ -107,11 +106,6 @@ export class MotorJoint extends Joint {
   constructor(def: MotorJointDef);
   constructor(def: MotorJointOpt, bodyA: Body, bodyB: Body);
   constructor(def: MotorJointDef | MotorJointOpt, bodyA?: Body, bodyB?: Body) {
-    // @ts-ignore
-    if (!(this instanceof MotorJoint)) {
-      return new MotorJoint(def, bodyA, bodyB);
-    }
-
     def = options(def, DEFAULTS);
     super(def, bodyA, bodyB);
     bodyA = this.m_bodyA;

@@ -128,8 +128,7 @@ const DEFAULTS = {
  * so that infinite forces are not generated.
  */
 export class RevoluteJoint extends Joint {
-  
-
+  // @ts-expect-error
   /** @internal */ m_type: 'revolute-joint';
   /** @internal */ m_localAnchorA: Vec2;
   /** @internal */ m_localAnchorB: Vec2;
@@ -160,13 +159,7 @@ export class RevoluteJoint extends Joint {
 
   constructor(def: RevoluteJointDef);
   constructor(def: RevoluteJointOpt, bodyA: Body, bodyB: Body, anchor: Vec2);
-  // @ts-ignore
   constructor(def: RevoluteJointDef, bodyA?: Body, bodyB?: Body, anchor?: Vec2) {
-    // @ts-ignore
-    if (!(this instanceof RevoluteJoint)) {
-      return new RevoluteJoint(def, bodyA, bodyB, anchor);
-    }
-
     def = options(def, DEFAULTS);
     super(def, bodyA, bodyB);
     bodyA = this.m_bodyA;

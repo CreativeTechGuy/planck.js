@@ -45,8 +45,6 @@ const _ASSERT = typeof ASSERT === 'undefined' ? false : ASSERT;
  * WARNING: The chain will not collide properly if there are self-intersections.
  */
 export class Chain extends Shape {
-  
-
   m_vertices: Vec2[];
   m_count: number;
   m_prevVertex: Vec2 | null;
@@ -57,11 +55,6 @@ export class Chain extends Shape {
   m_isLoop: boolean;
 
   constructor(vertices?: Vec2[], loop?: boolean) {
-    // @ts-ignore
-    if (!(this instanceof Chain)) {
-      return new Chain(vertices, loop);
-    }
-
     super();
 
     this.m_type = "chain";

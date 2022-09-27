@@ -86,8 +86,7 @@ const DEFAULTS = {
  * at the testbed.
  */
 export class MouseJoint extends Joint {
-  
-
+  // @ts-expect-error
   /** @internal */ m_type: 'mouse-joint';
   /** @internal */ m_targetA: Vec2;
   /** @internal */ m_localAnchorB: Vec2;
@@ -108,11 +107,6 @@ export class MouseJoint extends Joint {
   constructor(def: MouseJointDef);
   constructor(def: MouseJointOpt, bodyA: Body, bodyB: Body, target: Vec2);
   constructor(def: MouseJointDef, bodyA?: Body, bodyB?: Body, target?: Vec2) {
-    // @ts-ignore
-    if (!(this instanceof MouseJoint)) {
-      return new MouseJoint(def, bodyA, bodyB, target);
-    }
-
     def = options(def, DEFAULTS);
     super(def, bodyA, bodyB);
     bodyA = this.m_bodyA;

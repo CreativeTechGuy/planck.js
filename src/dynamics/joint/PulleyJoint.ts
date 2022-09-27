@@ -94,9 +94,9 @@ const DEFAULTS = {
  * length.
  */
 export class PulleyJoint extends Joint {
-  
   // static MIN_PULLEY_LENGTH: number = 2.0; // TODO where this is used?
 
+  // @ts-expect-error
   /** @internal */ m_type: 'pulley-joint';
   /** @internal */ m_groundAnchorA: Vec2;
   /** @internal */ m_groundAnchorB: Vec2;
@@ -124,11 +124,6 @@ export class PulleyJoint extends Joint {
   constructor(def: PulleyJointDef);
   constructor(def: PulleyJointOpt, bodyA: Body, bodyB: Body, groundA: Vec2, groundB: Vec2, anchorA: Vec2, anchorB: Vec2, ratio: number);
   constructor(def: PulleyJointDef, bodyA?: Body, bodyB?: Body, groundA?: Vec2, groundB?: Vec2, anchorA?: Vec2, anchorB?: Vec2, ratio?: number) {
-    // @ts-ignore
-    if (!(this instanceof PulleyJoint)) {
-      return new PulleyJoint(def, bodyA, bodyB, groundA, groundB, anchorA, anchorB, ratio);
-    }
-
     def = options(def, DEFAULTS);
     super(def, bodyA, bodyB);
     bodyA = this.m_bodyA;

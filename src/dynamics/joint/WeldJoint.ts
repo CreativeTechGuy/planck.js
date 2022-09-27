@@ -87,8 +87,7 @@ const DEFAULTS = {
  * somewhat because the island constraint solver is approximate.
  */
 export class WeldJoint extends Joint {
-  
-
+  // @ts-expect-error
   /** @internal */ m_type: 'weld-joint';
   /** @internal */ m_localAnchorA: Vec2;
   /** @internal */ m_localAnchorB: Vec2;
@@ -116,11 +115,6 @@ export class WeldJoint extends Joint {
   constructor(def: WeldJointDef);
   constructor(def: WeldJointOpt, bodyA: Body, bodyB: Body, anchor: Vec2);
   constructor(def: WeldJointDef, bodyA?: Body, bodyB?: Body, anchor?: Vec2) {
-    // @ts-ignore
-    if (!(this instanceof WeldJoint)) {
-      return new WeldJoint(def, bodyA, bodyB, anchor);
-    }
-
     def = options(def, DEFAULTS);
     super(def, bodyA, bodyB);
     bodyA = this.m_bodyA;
