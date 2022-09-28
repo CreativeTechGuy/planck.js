@@ -189,29 +189,6 @@ export class Fixture {
     body.resetMassData();
   }
 
-  /** @internal */
-  _serialize(): object {
-    return {
-      friction: this.m_friction,
-      restitution: this.m_restitution,
-      density: this.m_density,
-      isSensor: this.m_isSensor,
-
-      filterGroupIndex: this.m_filterGroupIndex,
-      filterCategoryBits: this.m_filterCategoryBits,
-      filterMaskBits: this.m_filterMaskBits,
-
-      shape: this.m_shape,
-    };
-  }
-
-  /** @internal */
-  static _deserialize(data: any, body: any, restore: any): Fixture {
-    const shape = restore(Shape, data.shape);
-    const fixture = shape && new Fixture(body, shape, data);
-    return fixture;
-  }
-
   /**
    * Get the type of the child shape. You can use this to down cast to the
    * concrete shape.

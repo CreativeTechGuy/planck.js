@@ -147,36 +147,6 @@ export class MouseJoint extends Joint {
     // w k % (rx i + ry j) = w * (-ry i + rx j)
   }
 
-  /** @internal */
-  _serialize(): object {
-    return {
-      type: this.m_type,
-      bodyA: this.m_bodyA,
-      bodyB: this.m_bodyB,
-      collideConnected: this.m_collideConnected,
-
-      target: this.m_targetA,
-      maxForce: this.m_maxForce,
-      frequencyHz: this.m_frequencyHz,
-      dampingRatio: this.m_dampingRatio,
-
-      _localAnchorB: this.m_localAnchorB,
-    };
-  }
-
-  /** @internal */
-  static _deserialize(data: any, world: any, restore: any): MouseJoint {
-    data = {...data};
-    data.bodyA = restore(Body, data.bodyA, world);
-    data.bodyB = restore(Body, data.bodyB, world);
-    data.target = Vec2.clone(data.target);
-    const joint = new MouseJoint(data);
-    if (data._localAnchorB) {
-      joint.m_localAnchorB = data._localAnchorB;
-    }
-    return joint;
-  }
-
   /**
    * Use this to update the target point.
    */

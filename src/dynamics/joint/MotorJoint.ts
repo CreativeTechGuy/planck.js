@@ -137,32 +137,6 @@ export class MotorJoint extends Joint {
   }
 
   /** @internal */
-  _serialize(): object {
-    return {
-      type: this.m_type,
-      bodyA: this.m_bodyA,
-      bodyB: this.m_bodyB,
-      collideConnected: this.m_collideConnected,
-
-      maxForce: this.m_maxForce,
-      maxTorque: this.m_maxTorque,
-      correctionFactor: this.m_correctionFactor,
-
-      linearOffset: this.m_linearOffset,
-      angularOffset: this.m_angularOffset,
-    };
-  }
-
-  /** @internal */
-  static _deserialize(data: any, world: any, restore: any): MotorJoint {
-    data = {...data};
-    data.bodyA = restore(Body, data.bodyA, world);
-    data.bodyB = restore(Body, data.bodyB, world);
-    const joint = new MotorJoint(data);
-    return joint;
-  }
-
-  /** @internal */
   _setAnchors(def: {}): void {
   }
 

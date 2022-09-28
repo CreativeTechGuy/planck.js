@@ -196,36 +196,6 @@ export class RevoluteJoint extends Joint {
   }
 
   /** @internal */
-  _serialize(): object {
-    return {
-      type: this.m_type,
-      bodyA: this.m_bodyA,
-      bodyB: this.m_bodyB,
-      collideConnected: this.m_collideConnected,
-
-      lowerAngle: this.m_lowerAngle,
-      upperAngle: this.m_upperAngle,
-      maxMotorTorque: this.m_maxMotorTorque,
-      motorSpeed: this.m_motorSpeed,
-      enableLimit: this.m_enableLimit,
-      enableMotor: this.m_enableMotor,
-
-      localAnchorA: this.m_localAnchorA,
-      localAnchorB: this.m_localAnchorB,
-      referenceAngle: this.m_referenceAngle,
-    };
-  }
-
-  /** @internal */
-  static _deserialize(data: any, world: any, restore: any):RevoluteJoint {
-    data = {...data};
-    data.bodyA = restore(Body, data.bodyA, world);
-    data.bodyB = restore(Body, data.bodyB, world);
-    const joint = new RevoluteJoint(data);
-    return joint;
-  }
-
-  /** @internal */
   _setAnchors(def: {
     anchorA?: Vec2,
     localAnchorA?: Vec2,

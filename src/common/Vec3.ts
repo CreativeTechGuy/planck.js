@@ -57,24 +57,6 @@ export class Vec3 {
   }
 
   /** @internal */
-  _serialize(): object {
-    return {
-      x: this.x,
-      y: this.y,
-      z: this.z
-    };
-  }
-
-  /** @internal */
-  static _deserialize(data: any): Vec3 {
-    const obj = Object.create(Vec3.prototype);
-    obj.x = data.x;
-    obj.y = data.y;
-    obj.z = data.z;
-    return obj;
-  }
-
-  /** @internal */
   static neo(x: number, y: number, z: number): Vec3 {
     const obj = Object.create(Vec3.prototype);
     obj.x = x;

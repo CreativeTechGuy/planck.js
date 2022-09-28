@@ -164,52 +164,6 @@ export class World {
     this.m_t = 0;
   }
 
-  /** @internal */
-  _serialize(): object {
-    const bodies = [];
-    const joints = [];
-
-    for (let b = this.getBodyList(); b; b = b.getNext()) {
-      bodies.push(b);
-    }
-
-    for (let j = this.getJointList(); j; j = j.getNext()) {
-      // @ts-ignore
-      if (typeof j._serialize === 'function') {
-        joints.push(j);
-      }
-    }
-
-    return {
-      gravity: this.m_gravity,
-      bodies,
-      joints,
-    };
-  }
-
-  /** @internal */
-  static _deserialize(data: any, context: any, restore: any): World {
-    if (!data) {
-      return new World();
-    }
-
-    const world = new World(data.gravity);
-
-    if (data.bodies) {
-      for (let i = data.bodies.length - 1; i >= 0; i -= 1) {
-        world._addBody(restore(Body, data.bodies[i], world));
-      }
-    }
-
-    if (data.joints) {
-      for (let i = data.joints.length - 1; i >= 0; i--) {
-        world.createJoint(restore(Joint, data.joints[i], world));
-      }
-    }
-
-    return world;
-  }
-
   /**
    * Get the world body list. With the returned body, use Body.getNext to get the
    * next body in the world list. A null body indicates the end of the list.

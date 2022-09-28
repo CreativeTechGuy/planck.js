@@ -263,38 +263,6 @@ export class PrismaticJoint extends Joint {
   }
 
   /** @internal */
-  _serialize(): object {
-    return {
-      type: this.m_type,
-      bodyA: this.m_bodyA,
-      bodyB: this.m_bodyB,
-      collideConnected: this.m_collideConnected,
-
-      lowerTranslation: this.m_lowerTranslation,
-      upperTranslation: this.m_upperTranslation,
-      maxMotorForce: this.m_maxMotorForce,
-      motorSpeed: this.m_motorSpeed,
-      enableLimit: this.m_enableLimit,
-      enableMotor: this.m_enableMotor,
-
-      localAnchorA: this.m_localAnchorA,
-      localAnchorB: this.m_localAnchorB,
-      localAxisA: this.m_localXAxisA,
-      referenceAngle: this.m_referenceAngle,
-    };
-  }
-
-  /** @internal */
-  static _deserialize(data: any, world: any, restore: any): PrismaticJoint {
-    data = {...data};
-    data.bodyA = restore(Body, data.bodyA, world);
-    data.bodyB = restore(Body, data.bodyB, world);
-    data.localAxisA = Vec2.clone(data.localAxisA);
-    const joint = new PrismaticJoint(data);
-    return joint;
-  }
-
-  /** @internal */
   _setAnchors(def: {
     anchorA?: Vec2,
     localAnchorA?: Vec2,

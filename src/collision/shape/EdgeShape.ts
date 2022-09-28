@@ -64,33 +64,6 @@ export class Edge extends Shape {
     this.m_hasVertex3 = false;
   }
 
-  /** @internal */
-  _serialize(): object {
-    return {
-      type: this.m_type,
-
-      vertex1: this.m_vertex1,
-      vertex2: this.m_vertex2,
-
-      vertex0: this.m_vertex0,
-      vertex3: this.m_vertex3,
-      hasVertex0: this.m_hasVertex0,
-      hasVertex3: this.m_hasVertex3,
-    };
-  }
-
-  /** @internal */
-  static _deserialize(data: any): Edge {
-    const shape = new Edge(data.vertex1, data.vertex2);
-    if (shape.m_hasVertex0) {
-      shape.setPrevVertex(data.vertex0);
-    }
-    if (shape.m_hasVertex3) {
-      shape.setNextVertex(data.vertex3);
-    }
-    return shape;
-  }
-
   /** @internal @deprecated */
   setNext(v?: Vec2): Edge {
     return this.setNextVertex(v);
@@ -152,25 +125,6 @@ export class Edge extends Shape {
     this.m_hasVertex0 = false;
     this.m_hasVertex3 = false;
     return this;
-  }
-
-  /**
-   * @internal
-   * @deprecated Shapes should be treated as immutable.
-   *
-   * clone the concrete shape.
-   */
-  _clone(): Edge {
-    const clone = new Edge();
-    clone.m_type = this.m_type;
-    clone.m_radius = this.m_radius;
-    clone.m_vertex1.setVec2(this.m_vertex1);
-    clone.m_vertex2.setVec2(this.m_vertex2);
-    clone.m_vertex0.setVec2(this.m_vertex0);
-    clone.m_vertex3.setVec2(this.m_vertex3);
-    clone.m_hasVertex0 = this.m_hasVertex0;
-    clone.m_hasVertex3 = this.m_hasVertex3;
-    return clone;
   }
 
   /**

@@ -61,21 +61,6 @@ export class Circle extends Shape {
     }
   }
 
-  /** @internal */
-  _serialize(): object {
-    return {
-      type: this.m_type,
-
-      p: this.m_p,
-      radius: this.m_radius,
-    };
-  }
-
-  /** @internal */
-  static _deserialize(data: any): Circle {
-    return new Circle(data.p, data.radius);
-  }
-
   // TODO: already defined in Shape
   getRadius(): number {
     return this.m_radius;
@@ -88,20 +73,6 @@ export class Circle extends Shape {
   getVertex(index: 0): Vec2 {
     _ASSERT && common.assert(index == 0);
     return this.m_p;
-  }
-
-  /**
-   * @internal
-   * @deprecated Shapes should be treated as immutable.
-   *
-   * clone the concrete shape.
-   */
-  _clone(): Circle {
-    const clone = new Circle();
-    clone.m_type = this.m_type;
-    clone.m_radius = this.m_radius;
-    clone.m_p = this.m_p.clone();
-    return clone;
   }
 
   /**

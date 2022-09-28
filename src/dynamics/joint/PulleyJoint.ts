@@ -158,32 +158,6 @@ export class PulleyJoint extends Joint {
     // cross(r2, u2)^2)
   }
 
-  _serialize(): object {
-    return {
-      type: this.m_type,
-      bodyA: this.m_bodyA,
-      bodyB: this.m_bodyB,
-      collideConnected: this.m_collideConnected,
-
-      groundAnchorA: this.m_groundAnchorA,
-      groundAnchorB: this.m_groundAnchorB,
-      localAnchorA: this.m_localAnchorA,
-      localAnchorB: this.m_localAnchorB,
-      lengthA: this.m_lengthA,
-      lengthB: this.m_lengthB,
-      ratio: this.m_ratio,
-    };
-  }
-
-  /** @internal */
-  static _deserialize(data: any, world: any, restore: any): PulleyJoint {
-    data = {...data};
-    data.bodyA = restore(Body, data.bodyA, world);
-    data.bodyB = restore(Body, data.bodyB, world);
-    const joint = new PulleyJoint(data);
-    return joint;
-  }
-
   /**
    * Get the first ground anchor.
    */

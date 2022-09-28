@@ -64,14 +64,6 @@ export abstract class Shape {
   }
 
   /**
-   * @internal
-   * @deprecated Shapes should be treated as immutable.
-   *
-   * clone the concrete shape.
-   */
-  abstract _clone(): Shape;
-
-  /**
    * Get the number of child primitives.
    */
   abstract getChildCount(): number;

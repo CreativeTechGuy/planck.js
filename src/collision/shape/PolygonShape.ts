@@ -64,52 +64,9 @@ export class Polygon extends Shape {
     }
   }
 
-  /** @internal */
-  _serialize(): object {
-    return {
-      type: this.m_type,
-
-      vertices: this.m_vertices,
-    };
-  }
-
-  /** @internal */
-  static _deserialize(data: any, fixture: any, restore: any): Polygon {
-    const vertices = [] as Vec2[];
-    if (data.vertices) {
-      for (let i = 0; i < data.vertices.length; i++) {
-        vertices.push(restore(Vec2, data.vertices[i]));
-      }
-    }
-
-    const shape = new Polygon(vertices);
-    return shape;
-  }
-
   getVertex(index: number): Vec2 {
     _ASSERT && common.assert(0 <= index && index < this.m_count);
     return this.m_vertices[index];
-  }
-
-  /**
-   * @internal
-   * @deprecated Shapes should be treated as immutable.
-   *
-   * clone the concrete shape.
-   */
-  _clone(): Polygon {
-    const clone = new Polygon();
-    clone.m_type = this.m_type;
-    clone.m_radius = this.m_radius;
-    clone.m_count = this.m_count;
-    clone.m_centroid.setVec2(this.m_centroid);
-    for (let i = 0; i < this.m_count; i++) {
-      clone.m_vertices.push(this.m_vertices[i].clone());
-    }
-    for (let i = 0; i < this.m_normals.length; i++) {
-      clone.m_normals.push(this.m_normals[i].clone());
-    }
-    return clone;
   }
 
   /**

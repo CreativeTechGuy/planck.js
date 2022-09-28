@@ -77,44 +77,6 @@ export class Chain extends Shape {
     }
   }
 
-  /** @internal */
-  _serialize(): object {
-    const data = {
-      type: this.m_type,
-      vertices: this.m_vertices,
-      isLoop: this.m_isLoop,
-      hasPrevVertex: this.m_hasPrevVertex,
-      hasNextVertex: this.m_hasNextVertex,
-      prevVertex: null as Vec2 | null,
-      nextVertex: null as Vec2 | null,
-    };
-    if (this.m_prevVertex) {
-      data.prevVertex = this.m_prevVertex;
-    }
-    if (this.m_nextVertex) {
-      data.nextVertex = this.m_nextVertex;
-    }
-    return data;
-  }
-
-  /** @internal */
-  static _deserialize(data: any, fixture: any, restore: any): Chain {
-    const vertices = [] as Vec2[];
-    if (data.vertices) {
-      for (let i = 0; i < data.vertices.length; i++) {
-        vertices.push(restore(Vec2, data.vertices[i]));
-      }
-    }
-    const shape = new Chain(vertices, data.isLoop);
-    if (data.prevVertex) {
-      shape.setPrevVertex(data.prevVertex);
-    }
-    if (data.nextVertex) {
-      shape.setNextVertex(data.nextVertex);
-    }
-    return shape;
-  }
-
   // clear() {
   //   this.m_vertices.length = 0;
   //   this.m_count = 0;
@@ -213,24 +175,6 @@ export class Chain extends Shape {
 
   getNextVertex(): Vec2 {
     return this.m_nextVertex;
-  }
-
-  /**
-   * @internal
-   * @deprecated Shapes should be treated as immutable.
-   *
-   * clone the concrete shape.
-   */
-  _clone(): Chain {
-    const clone = new Chain();
-    clone._createChain(this.m_vertices);
-    clone.m_type = this.m_type;
-    clone.m_radius = this.m_radius;
-    clone.m_prevVertex = this.m_prevVertex;
-    clone.m_nextVertex = this.m_nextVertex;
-    clone.m_hasPrevVertex = this.m_hasPrevVertex;
-    clone.m_hasNextVertex = this.m_hasNextVertex;
-    return clone;
   }
 
   /**

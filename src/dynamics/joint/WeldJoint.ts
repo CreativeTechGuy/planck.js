@@ -161,32 +161,6 @@ export class WeldJoint extends Joint {
   }
 
   /** @internal */
-  _serialize(): object {
-    return {
-      type: this.m_type,
-      bodyA: this.m_bodyA,
-      bodyB: this.m_bodyB,
-      collideConnected: this.m_collideConnected,
-
-      frequencyHz: this.m_frequencyHz,
-      dampingRatio: this.m_dampingRatio,
-
-      localAnchorA: this.m_localAnchorA,
-      localAnchorB: this.m_localAnchorB,
-      referenceAngle: this.m_referenceAngle,
-    };
-  }
-
-  /** @internal */
-  static _deserialize(data: any, world: any, restore: any): WeldJoint {
-    data = {...data};
-    data.bodyA = restore(Body, data.bodyA, world);
-    data.bodyB = restore(Body, data.bodyB, world);
-    const joint = new WeldJoint(data);
-    return joint;
-  }
-
-  /** @internal */
   _setAnchors(def: {
     anchorA?: Vec2,
     localAnchorA?: Vec2,

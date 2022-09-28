@@ -152,36 +152,6 @@ export class DistanceJoint extends Joint {
   }
 
   /** @internal */
-  _serialize(): object {
-    return {
-      type: this.m_type,
-      bodyA: this.m_bodyA,
-      bodyB: this.m_bodyB,
-      collideConnected: this.m_collideConnected,
-
-      frequencyHz: this.m_frequencyHz,
-      dampingRatio: this.m_dampingRatio,
-
-      localAnchorA: this.m_localAnchorA,
-      localAnchorB: this.m_localAnchorB,
-      length: this.m_length,
-
-      impulse: this.m_impulse,
-      gamma: this.m_gamma,
-      bias: this.m_bias,
-    };
-  }
-
-  /** @internal */
-  static _deserialize(data: any, world: any, restore: any): DistanceJoint {
-    data = {...data};
-    data.bodyA = restore(Body, data.bodyA, world);
-    data.bodyB = restore(Body, data.bodyB, world);
-    const joint = new DistanceJoint(data);
-    return joint;
-  }
-
-  /** @internal */
   _setAnchors(def: {
     anchorA?: Vec2,
     localAnchorA?: Vec2,

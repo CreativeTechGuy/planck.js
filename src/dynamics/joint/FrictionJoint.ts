@@ -132,31 +132,6 @@ export class FrictionJoint extends Joint {
   }
 
   /** @internal */
-  _serialize(): object {
-    return {
-      type: this.m_type,
-      bodyA: this.m_bodyA,
-      bodyB: this.m_bodyB,
-      collideConnected: this.m_collideConnected,
-
-      maxForce: this.m_maxForce,
-      maxTorque: this.m_maxTorque,
-
-      localAnchorA: this.m_localAnchorA,
-      localAnchorB: this.m_localAnchorB,
-    };
-  }
-
-  /** @internal */
-  static _deserialize(data: any, world: any, restore: any): FrictionJoint {
-    data = {...data};
-    data.bodyA = restore(Body, data.bodyA, world);
-    data.bodyB = restore(Body, data.bodyB, world);
-    const joint = new FrictionJoint(data);
-    return joint;
-  }
-
-  /** @internal */
   _setAnchors(def: {
     anchorA?: Vec2,
     localAnchorA?: Vec2,

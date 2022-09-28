@@ -52,22 +52,6 @@ export class Vec2 {
     _ASSERT && Vec2.assert(this);
   }
 
-  /** @internal */
-  _serialize(): object {
-    return {
-      x: this.x,
-      y: this.y
-    };
-  }
-
-  /** @internal */
-  static _deserialize(data: any): Vec2 {
-    const obj = Object.create(Vec2.prototype);
-    obj.x = data.x;
-    obj.y = data.y;
-    return obj;
-  }
-
   static zero(): Vec2 {
     const obj = Object.create(Vec2.prototype);
     obj.x = 0;

@@ -193,35 +193,6 @@ export class WheelJoint extends Joint {
   }
 
   /** @internal */
-  _serialize(): object {
-    return {
-      type: this.m_type,
-      bodyA: this.m_bodyA,
-      bodyB: this.m_bodyB,
-      collideConnected: this.m_collideConnected,
-
-      enableMotor: this.m_enableMotor,
-      maxMotorTorque: this.m_maxMotorTorque,
-      motorSpeed: this.m_motorSpeed,
-      frequencyHz: this.m_frequencyHz,
-      dampingRatio: this.m_dampingRatio,
-
-      localAnchorA: this.m_localAnchorA,
-      localAnchorB: this.m_localAnchorB,
-      localAxisA: this.m_localXAxisA,
-    };
-  }
-
-  /** @internal */
-  static _deserialize(data: any, world: any, restore: any): WheelJoint {
-    data = {...data};
-    data.bodyA = restore(Body, data.bodyA, world);
-    data.bodyB = restore(Body, data.bodyB, world);
-    const joint = new WheelJoint(data);
-    return joint;
-  }
-
-  /** @internal */
   _setAnchors(def: {
     anchorA?: Vec2,
     localAnchorA?: Vec2,

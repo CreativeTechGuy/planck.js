@@ -232,34 +232,6 @@ export class GearJoint extends Joint {
     // K = J * invM * JT = invMass + invI * cross(r, ug)^2
   }
 
-  /** @internal */
-  _serialize(): object {
-    return {
-      type: this.m_type,
-      bodyA: this.m_bodyA,
-      bodyB: this.m_bodyB,
-      collideConnected: this.m_collideConnected,
-
-      joint1: this.m_joint1,
-      joint2: this.m_joint2,
-      ratio: this.m_ratio,
-
-      // _constant: this.m_constant,
-    };
-  }
-
-  /** @internal */
-  static _deserialize(data: any, world: any, restore: any): GearJoint {
-    data = {...data};
-    data.bodyA = restore(Body, data.bodyA, world);
-    data.bodyB = restore(Body, data.bodyB, world);
-    data.joint1 = restore(Joint, data.joint1, world);
-    data.joint2 = restore(Joint, data.joint2, world);
-    const joint = new GearJoint(data);
-    // if (data._constant) joint.m_constant = data._constant;
-    return joint;
-  }
-
   /**
    * Get the first joint.
    */

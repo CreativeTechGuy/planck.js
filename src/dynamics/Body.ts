@@ -281,36 +281,6 @@ export class Body {
     this.m_destroyed = false;
   }
 
-  /** @internal */
-  _serialize(): object {
-    const fixtures = [];
-    for (let f = this.m_fixtureList; f; f = f.m_next) {
-      fixtures.push(f);
-    }
-    return {
-      type: this.m_type,
-      bullet: this.m_bulletFlag,
-      position: this.m_xf.p,
-      angle: this.m_xf.q.getAngle(),
-      linearVelocity: this.m_linearVelocity,
-      angularVelocity: this.m_angularVelocity,
-      fixtures,
-    };
-  }
-
-  /** @internal */
-  static _deserialize(data: any, world: any, restore: any): Body {
-    const body = new Body(world, data);
-
-    if (data.fixtures) {
-      for (let i = data.fixtures.length - 1; i >= 0; i--) {
-        const fixture = restore(Fixture, data.fixtures[i], body);
-        body._addFixture(fixture);
-      }
-    }
-    return body;
-  }
-
   isWorldLocked(): boolean {
     return this.m_world && this.m_world.isLocked() ? true : false;
   }

@@ -131,29 +131,6 @@ export class RopeJoint extends Joint {
     // = invMassA + invIA * cross(rA, u)^2 + invMassB + invIB * cross(rB, u)^2
   }
 
-  /** @internal */
-  _serialize(): object {
-    return {
-      type: this.m_type,
-      bodyA: this.m_bodyA,
-      bodyB: this.m_bodyB,
-      collideConnected: this.m_collideConnected,
-
-      localAnchorA: this.m_localAnchorA,
-      localAnchorB: this.m_localAnchorB,
-      maxLength: this.m_maxLength,
-    };
-  }
-
-  /** @internal */
-  static _deserialize(data: any, world: any, restore: any): RopeJoint {
-    data = {...data};
-    data.bodyA = restore(Body, data.bodyA, world);
-    data.bodyB = restore(Body, data.bodyB, world);
-    const joint = new RopeJoint(data);
-    return joint;
-  }
-
   /**
    * The local anchor point relative to bodyA's origin.
    */
