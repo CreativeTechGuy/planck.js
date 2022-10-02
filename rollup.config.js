@@ -16,6 +16,14 @@ export default [
     dest: 'dist/planck.js',
     minimize: false,
     declaration: true,
+    format: "esm",
+  },
+  {
+    src: 'src/index.ts',
+    dest: 'dist/planck.cjs',
+    minimize: false,
+    declaration: false,
+    format: "cjs",
   },
 ].map(options => {
   const config = {
@@ -23,7 +31,7 @@ export default [
     output: {
       name: 'planck',
       file: options.dest,
-      format: 'esm',
+      format: options.format,
       sourcemap: true,
     },
     plugins: [
