@@ -9,6 +9,7 @@
 * Rename `Math` export to `PlanckMath` to not cause confusion with default Math object
 * Upgraded TypeScript
 * Require constructors to be called with `new`
+* Implement `testPoint` method in Chain
 
 ## 0.2
 * TypeScript definitions added

@@ -31,6 +31,7 @@ import { Vec2 } from '../../common/Vec2';
 import { Settings } from '../../Settings';
 import { Shape } from '../Shape';
 import { Edge } from './EdgeShape';
+import { Rot } from '../../common/Rot';
 
 
 const _ASSERT = typeof ASSERT === 'undefined' ? false : ASSERT;
@@ -233,8 +234,26 @@ export class Chain extends Shape {
    * @param xf The shape world transform.
    * @param p A point in world coordinates.
    */
-  testPoint(xf: Transform, p: Vec2): false {
-    return false;
+  testPoint(xf: Transform, p: Vec2): boolean {
+    // https://stackoverflow.com/questions/42457842/calculate-if-point-coordinates-is-inside-polygon-with-concave-and-convex-angles
+    let inside = false;
+    const pLocal = Rot.mulTVec2(xf.q, Vec2.sub(p, xf.p));
+    const x = pLocal.x;
+    const y = pLocal.y;
+    for (let i = 0; i < this.m_vertices.length - 1; i++) {
+      const p1_x = this.m_vertices[i].x;
+      const p1_y = this.m_vertices[i].y;
+      const p2_x = this.m_vertices[i + 1].x;
+      const p2_y = this.m_vertices[i + 1].y;
+      // this edge is crossing the horizontal ray of testpoint
+      if ((p1_y < y && p2_y >= y) || (p2_y < y && p1_y >= y)) {
+        // checking special cases (holes, self-crossings, self-overlapping, horizontal edges, etc.)
+        if (p1_x + ((y - p1_y) / (p2_y - p1_y)) * (p2_x - p1_x) < x) {
+          inside = !inside;
+        }
+      }
+    }
+    return inside;
   }
 
   /**
