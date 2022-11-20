@@ -10,6 +10,7 @@
 * Upgraded TypeScript
 * Require constructors to be called with `new`
 * Implement `testPoint` method in Chain
+* Make `validate` in Polygon static so it can validate a list of vertices
 
 ## 0.2
 * TypeScript definitions added

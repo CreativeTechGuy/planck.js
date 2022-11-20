@@ -444,19 +444,19 @@ export class Polygon extends Shape {
    * Validate convexity. This is a very time consuming operation.
    * @returns true if valid
    */
-  validate(): boolean {
-    for (let i = 0; i < this.m_count; ++i) {
+  static validate(vertices: Vec2[]): boolean {
+    for (let i = 0; i < vertices.length; ++i) {
       const i1 = i;
-      const i2 = i < this.m_count - 1 ? i1 + 1 : 0;
-      const p = this.m_vertices[i1];
-      const e = Vec2.sub(this.m_vertices[i2], p);
+      const i2 = i < vertices.length - 1 ? i1 + 1 : 0;
+      const p = vertices[i1];
+      const e = Vec2.sub(vertices[i2], p);
 
-      for (let j = 0; j < this.m_count; ++j) {
+      for (let j = 0; j < vertices.length; ++j) {
         if (j == i1 || j == i2) {
           continue;
         }
 
-        const v = Vec2.sub(this.m_vertices[j], p);
+        const v = Vec2.sub(vertices[j], p);
         const c = Vec2.crossVec2Vec2(e, v);
         if (c < 0.0) {
           return false;
